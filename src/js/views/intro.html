@@ -5,28 +5,19 @@
 <div class="oj-hybrid-padding">
   <h1>Introduction</h1>
   <div id="mainContainer">
-    <oj-tab-bar selection="{{selectedItem}}" edge="top" data="[[dataProvider]]">
+    <oj-tab-bar selection="{{selection.path}}" edge="top" data="[[dataProvider]]">
       <template slot="itemTemplate" data-oj-as="item">
         <li>
           <a href="#">
-            <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+            <oj-bind-text value="[[item.data.detail.label]]"></oj-bind-text>
           </a>
         </li>
       </template>
     </oj-tab-bar>
-    <oj-switcher value="[[selectedItem]]">
-      <div slot="overview" id="overview-tab-panel" role="tabpanel" aria-label="overview tab panel">
-        <oj-module config="[[getModuleConfig('overview')]]"></oj-module>
+    <div id="pageContent">
+      <div class="oj-flex">
+        <oj-module config="[[module.koObservableConfig]]"></oj-module>
       </div>
-      <div slot="organization" id="organization-tab-panel" role="tabpanel" aria-label="organization tab panel">
-        <oj-module config="[[getModuleConfig('organization')]]"></oj-module>
-      </div>
-      <div slot="employees" id="employees-tab-panel" role="tabpanel" aria-label="employees tab panel">
-        <oj-module config="[[getModuleConfig('employees')]]"></oj-module>
-      </div>
-      <div slot="customers" id="customers-tab-panel" role="tabpanel" aria-label="customers tab panel">
-        <oj-module config="[[getModuleConfig('customers')]]"></oj-module>
-      </div>
-    </oj-switcher>
+    </div>
   </div>
 </div>

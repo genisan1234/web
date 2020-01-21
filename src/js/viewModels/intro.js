@@ -8,36 +8,44 @@
 define(['accUtils',
   'knockout',
   'ojs/ojarraydataprovider',
-  'ojs/ojmodule-element-utils',
-  'ojs/ojnavigationlist',
-  'ojs/ojswitcher'],
-  function (accUtils, ko, ArrayDataProvider, moduleElementUtils) {
-    function IntroViewModel() {
+  'ojs/ojcorerouter',
+  'ojs/ojmodulerouter-adapter',
+  'ojs/ojknockoutrouteradapter',
+  'ojs/ojnavigationlist'],
+  function (accUtils, ko, ArrayDataProvider, CoreRouter, ModuleRouterAdapter, KnockoutRouterAdapter) {
+    function IntroViewModel(params) {
 
-      const data = [{
-        name: 'Overview',
-        id: 'overview'
-      },
-      {
-        name: 'Organization',
-        id: 'organization'
-      },
-      {
-        name: 'Employees',
-        id: 'employees'
-      },
-      {
-        name: 'Customers',
-        id: 'customers'
-      }];
-      this.dataProvider = new ArrayDataProvider(data, { keyAttributes: 'id' });
-      this.selectedItem = ko.observable('overview');
+      // setup router for tabbar states
+      const routes = [
+        { path: '', redirect: 'overview' }, // Default route redirects to 'overview'
+        { path: 'overview', detail: { label: 'Overview' } },
+        { path: 'organization', detail: { label: 'Organization' } },
+        { path: 'customers', detail: { label: 'Customers' } },
+        { path: 'employees', detail: { label: 'Employees' } }
+      ];
 
-      this.getModuleConfig = (id) => {
-        let viewPath = 'views/' + id + '.html';
-        let modelPath = 'viewModels/' + id;
-        return moduleElementUtils.createConfig({ viewPath: viewPath, viewModelPath: modelPath });
-      }
+      // Create ADP with partial array, excluding first redirect route
+      this.dataProvider = new ArrayDataProvider(routes.slice(1), {
+        keyAttributes: 'path'
+      });
+
+      // Create the router with the routes
+      let overviewRouter = params.parentRouter.createChildRouter(routes);
+
+      // Create ModuleRouterAdapter instance
+      this.module = new ModuleRouterAdapter(
+        overviewRouter,
+        {
+          viewPath: 'views/',
+          viewModelPath: 'viewModels/'
+        }
+      );
+
+      // Create an observable to react to the current router state path
+      this.selection = new KnockoutRouterAdapter(overviewRouter);
+
+      // Synchronize the router, causing it to go to its default route
+      overviewRouter.sync();
 
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
