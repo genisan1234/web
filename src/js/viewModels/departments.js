@@ -8,7 +8,7 @@
 define(['accUtils'],
  function(accUtils) {
 
-    function CustomersViewModel() {
+    function DepartmentsViewModel() {
       var self = this;
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
@@ -22,8 +22,8 @@ define(['accUtils'],
        * after being disconnected.
        */
       self.connected = function() {
-        accUtils.announce('Customers content loaded', 'assertive');
-        document.title = "Intro - Customers";
+        accUtils.announce('Department content loaded', 'assertive');
+        document.title = "Intro - Departments";
         // Implement further logic if needed
       };
 
@@ -48,6 +48,6 @@ define(['accUtils'],
      * return a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.
      */
-    return CustomersViewModel;
+    return DepartmentsViewModel;
   }
 );

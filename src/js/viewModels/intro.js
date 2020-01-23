@@ -20,7 +20,7 @@ define(['accUtils',
         { path: '', redirect: 'overview' }, // Default route redirects to 'overview'
         { path: 'overview', detail: { label: 'Overview' } },
         { path: 'organization', detail: { label: 'Organization' } },
-        { path: 'customers', detail: { label: 'Customers' } },
+        { path: 'departments', detail: { label: 'Departments' } },
         { path: 'employees', detail: { label: 'Employees' } }
       ];
 
