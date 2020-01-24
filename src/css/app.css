@@ -1,7 +1,7 @@
 /*
     Document   : override
-    Created on : <date>
-    Author     : <author>
+    Created on : 2020-01-24
+    Author     : Donald Raikes
     Description:
         This is where any of your application specific styles should be included
 */
@@ -13,4 +13,13 @@
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+.hideSkipNav {
+    position: absolute;
+    left: -1000px;
+}
+.hideSkipNav:focus {
+    position: unset;
+    left: 0px;
 }
