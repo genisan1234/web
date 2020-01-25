@@ -6,16 +6,14 @@
  */
 
 define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydataprovider', 'text!../data.json', 'ojs/ojtreeview'],
-  function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider, jsonData) {
+  function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider) {
     function OrganizationViewModel() {
-
       this.deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/dept/';
-      this.empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/'
+      this.empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
 
       this.deptArray = ko.observable();
       this.empArray = ko.observable();
-      this.dataProvider = ko.observable() 
-
+      this.dataProvider = ko.observable();
 
       fetch(this.empURL)
         .then((response) => {
@@ -24,7 +22,7 @@ define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydatap
         .then((body) => {
           let tempArray = this.createTreeData(body.items);
           this.empArray(new ArrayDataProvider(body.items, { keyAttributes: 'empno' }));
-          this.dataProvider( new ArrayTreeDataProvider(tempArray, {keyAttributes: 'id'}));
+          this.dataProvider(new ArrayTreeDataProvider(tempArray, { keyAttributes: 'id' }));
         });
 
       fetch(this.deptURL)
@@ -37,37 +35,37 @@ define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydatap
 
       this.createTreeData = (baseData) => {
         let org = {
-          Accounting: {children:[]},
-          Research: {children:[]},
-          Sales: {children:[]},
-          Operations: {children:[]}
-        }
+          Accounting: { children: [] },
+          Research: { children: [] },
+          Sales: { children: [] },
+          Operations: { children: [] }
+        };
         baseData.forEach(emp => {
           switch (emp.deptno) {
             case 10:
-              org['Accounting'].children.push({title: emp.ename, id: emp.ename});
+              org.Accounting.children.push({ title: emp.ename, id: emp.ename });
               break;
             case 20:
-              org['Research'].children.push({title: emp.ename, id: emp.ename});
+              org.Research.children.push({ title: emp.ename, id: emp.ename });
               break;
             case 30:
-              org['Sales'].children.push({title: emp.ename, id: emp.ename});
+              org.Sales.children.push({ title: emp.ename, id: emp.ename });
               break;
             case 40:
-              org['Operations'].children.push({title: emp.ename, id: emp.ename});
+              org.Operations.children.push({ title: emp.ename, id: emp.ename });
               break;
             default:
-              org['Accounting'].children.push({title: emp.ename, id: emp.ename});
+              org.Accounting.children.push({ title: emp.ename, id: emp.ename });
           }
-        })
+        });
         let finalOrg = [
-          {title:'Accounting', id:'accounting', children: org.Accounting.children},
-          {title:'Research', id:'research', children: org.Research.children},
-          {title:'Sales', id:'sales', children: org.Sales.children},
-          {title:'Operations', id:'operations', children: org.Operations.children}]
+          { title: 'Accounting', id: 'accounting', children: org.Accounting.children },
+          { title: 'Research', id: 'research', children: org.Research.children },
+          { title: 'Sales', id: 'sales', children: org.Sales.children },
+          { title: 'Operations', id: 'operations', children: org.Operations.children }];
 
         return finalOrg;
-      }
+      };
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
