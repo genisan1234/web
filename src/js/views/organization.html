@@ -2,8 +2,15 @@
  Copyright (c) 2014, 2020, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
- <div class="oj-hybrid-padding">
-<a id="main"
-  <h2>Organization content will go in here</h2>
-</a>
+<div class="oj-hybrid-padding">
+  <a id="main"></a>
+  <h2>Organizational Structure</h2>
+  <oj-tree-view id="treeview" data="[[dataProvider]]" selection-mode="single" aria-label="Tree view of departments and employees">
+    <template slot="itemTemplate" data-oj-as="row">
+      <span class="oj-treeview-item-icon"></span>
+      <span class="oj-treeview-item-text">
+        <oj-bind-text value="[[row.data.title]]"></oj-bind-text>
+      </span>
+    </template>
+  </oj-tree-view>
 </div>
