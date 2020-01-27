@@ -5,7 +5,14 @@
  * @ignore
  */
 
-define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydataprovider', 'text!../data.json', 'ojs/ojtreeview'],
+define(
+  ['knockout',
+    'accUtils',
+    'ojs/ojarraytreedataprovider',
+    'ojs/ojarraydataprovider',
+    'ojs/ojtreeview',
+    'ojs/ojavatar',
+    'ojs/ojknockout'],
   function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider) {
     function OrganizationViewModel() {
       this.deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/dept/';
@@ -21,6 +28,7 @@ define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydatap
         })
         .then((body) => {
           let tempArray = this.createTreeData(body.items);
+          // this.buildStructure(body.items);
           this.empArray(new ArrayDataProvider(body.items, { keyAttributes: 'empno' }));
           this.dataProvider(new ArrayTreeDataProvider(tempArray, { keyAttributes: 'id' }));
         });
@@ -43,28 +51,72 @@ define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydatap
         baseData.forEach(emp => {
           switch (emp.deptno) {
             case 10:
-              org.Accounting.children.push({ title: emp.ename, id: emp.ename });
+              org.Accounting.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
               break;
             case 20:
-              org.Research.children.push({ title: emp.ename, id: emp.ename });
+              org.Research.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
               break;
             case 30:
-              org.Sales.children.push({ title: emp.ename, id: emp.ename });
+              org.Sales.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
               break;
             case 40:
-              org.Operations.children.push({ title: emp.ename, id: emp.ename });
+              org.Operations.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
               break;
             default:
-              org.Accounting.children.push({ title: emp.ename, id: emp.ename });
+              org.Accounting.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
           }
         });
         let finalOrg = [
-          { title: 'Accounting', id: 'accounting', children: org.Accounting.children },
-          { title: 'Research', id: 'research', children: org.Research.children },
-          { title: 'Sales', id: 'sales', children: org.Sales.children },
-          { title: 'Operations', id: 'operations', children: org.Operations.children }];
+          {
+            title: 'Accounting', id: 'accounting', isLeaf: false, children: org.Accounting.children
+          },
+          {
+            title: 'Research', id: 'research', isLeaf: false, children: org.Research.children
+          },
+          {
+            title: 'Sales', id: 'sales', isLeaf: false, children: org.Sales.children
+          },
+          {
+            title: 'Operations', id: 'operations', isLeaf: false, children: org.Operations.children
+          }];
 
         return finalOrg;
+      };
+
+      // Experimenting on recursion of sorts
+      // let tempStucture = new Set();
+      // this.getChildren = (obj) => {
+      //   let children = [];
+      //   obj.forEach(emp => {
+
+      //   });
+      //   return children;
+      // };
+      // this.buildStructure = (data) => {
+      //   data.forEach(emp => {
+      //     let obj = {
+      //       id: emp.empno,
+      //       name: emp.ename,
+      //       mgr: emp.mgr,
+      //       children: []
+      //     };
+      //     data.forEach(emp2 => {
+      //       if (emp2.mgr === emp.empno) { obj.children.push(emp2.ename); }
+      //     });
+      //     tempStucture.add(obj);
+      //   });
+      //   console.log(tempStucture.keys());
+      //   console.log('Test: ' + JSON.stringify([...tempStucture]));
+      // };
+
+      // end experiments
+
+      this.isLeaf = (value) => {
+        return value;
+      };
+
+      this.getInitials = (value) => {
+        return value.title.slice(0, 1);
       };
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
@@ -106,4 +158,5 @@ define(['knockout', 'accUtils', 'ojs/ojarraytreedataprovider', 'ojs/ojarraydatap
      * each time the view is displayed.
      */
     return OrganizationViewModel;
-  });
+  }
+);
