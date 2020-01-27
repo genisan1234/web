@@ -3,7 +3,111 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class="oj-hybrid-padding">
-<a id="main">
-  <h2>Employees content will go in here</h2>
-</a>
+  <a id="main"></a>
+  <h2>Employee details</h2>
+  <!-- <oj-list-view id="listview" aria-label="simple list" data="[[dataProvider]]">
+    <template slot="itemTemplate" data-oj-as="item">
+      <oj-avatar size="xs" src="[['css/images/'+item.data.id+'.png']]"></oj-avatar>
+      <div class="container">
+        <div>
+          <span class="name">
+            <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+          </span>
+        </div>
+        <div>
+          <span class="oj-text-xs oj-text-secondary-color">
+            <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+          </span>
+        </div>
+      </div>
+    </template>
+  </oj-list-view> -->
+  <div class="oj-flex oj-flex-items-padding">
+    <div class="oj-flex-item">
+      <oj-table id='table' class="banded-table" aria-label='Departments Table' first-selected-row="{{selectedRow}}"
+        on-first-selected-row-changed="[[selectionChangedHandler]]" selection-mode='{"row": "single", "column": "none"}'
+        data='[[dataProvider]]' columns-default.sortable='disabled' columns='[
+        {"headerText": "Employee Number", "field": "empno"},
+        {"headerText": "Username", "field": "ename"},
+        {"headerText": "Title", "field": "job", "template": "titleTemplate"},
+        {"headerText": "Hire Date", "field": "hiredate", "template": "hireDateTemplate"}, 
+        {"headerText": "Salary", "field": "sal", "template": "salaryTemplate"}]'>
+        <template slot="titleTemplate" data-oj-as="title">
+          <oj-bind-text value="[[title.data]]"></oj-bind-text>
+        </template>
+        <template slot="hireDateTemplate" data-oj-as="hireDate">
+          <oj-bind-text value="[[formatDate(hireDate.data)]]"></oj-bind-text>
+        </template>
+        <template slot="salaryTemplate" data-oj-as="salary">
+          <oj-bind-text value="[[formatSal(salary.data)]]"></oj-bind-text>
+        </template>
+      </oj-table>
+    </div>
+    <div class="oj-flex oj-flex-item oj-panel">
+      <div class="oj-flex-item oj-sm-12 oj-panel oj-panel-alt3">
+        <div id="avatar">Avatar</div>
+        <div id="name">Name</div>
+      </div>
+      <div class="oj-flex-item oj-sm-12 oj-panel oj-panel-alt2">
+        manager stuff here
+      </div>
+    </div>
+  </div>
+
+
+
+  <oj-dialog style="display:none" id="editDialog" dialog-title="Edit Employee">
+    <div slot="body">
+      <oj-validation-group valid="{{groupValid}}">
+        <div class="oj-flex oj-flex-items-pad">
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-label for="employeeIdEdit">Employee Id</oj-label>
+          </div>
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-input-number id="employeeIdEdit" readonly="true" min="0" step="1" value="{{editEmployeeId}}">
+            </oj-input-number>
+          </div>
+        </div>
+        <div class="oj-flex oj-flex-items-pad">
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-label for="employeeNameEdit">Employee Name</oj-label>
+          </div>
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-input-text id="employeeNameEdit" value="{{editEmployeeName}}"></oj-input-text>
+          </div>
+        </div>
+        <div class="oj-flex oj-flex-items-pad">
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-label for="jobEdit">Job Title</oj-label>
+          </div>
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-input-text id="jobEdit" length.max="9" value="{{editJob}}"></oj-input-text>
+          </div>
+        </div>
+        <div class="oj-flex oj-flex-items-pad">
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-label for="hireDate">Hire Date</oj-label>
+          </div>
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-input-text id="hireDate" readonly="true" value="{{formatDate(editHireDate())}}"></oj-input-text>
+          </div>
+        </div>
+        <div class="oj-flex oj-flex-items-pad">
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-label for="salaryEdit">Salary</oj-label>
+          </div>
+          <div class="oj-flex-item deprecated-col-default-width">
+            <oj-input-number id="salaryEdit" min="0" step="1" value="{{editSal}}">
+            </oj-input-number>
+          </div>
+        </div>
+      </oj-validation-group>
+    </div>
+    <div slot="footer">
+      <oj-button id="saveButton" on-oj-action="[[save]]">Save
+      </oj-button>
+      <oj-button id="cancelButton" on-oj-action="[[cancel]]">Cancel
+      </oj-button>
+    </div>
+  </oj-dialog>
 </div>
