@@ -21,8 +21,8 @@ define(
         { path: '', redirect: 'overview' }, // Default route redirects to 'overview'
         { path: 'overview', detail: { label: 'Overview' } },
         { path: 'organization', detail: { label: 'Organization' } },
-        { path: 'departments', detail: { label: 'Departments' } },
-        { path: 'employees', detail: { label: 'Employees' } }
+        { path: 'employees', detail: { label: 'Employees' } },
+        { path: 'departments', detail: { label: 'Departments' } }
       ];
 
       // Create ADP with partial array, excluding first redirect route
