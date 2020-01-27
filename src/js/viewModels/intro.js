@@ -5,16 +5,17 @@
  * @ignore
  */
 
-define(['accUtils',
-  'knockout',
-  'ojs/ojarraydataprovider',
-  'ojs/ojcorerouter',
-  'ojs/ojmodulerouter-adapter',
-  'ojs/ojknockoutrouteradapter',
-  'ojs/ojnavigationlist'],
+define(
+  ['accUtils',
+    'knockout',
+    'ojs/ojarraydataprovider',
+    'ojs/ojcorerouter',
+    'ojs/ojmodulerouter-adapter',
+    'ojs/ojknockoutrouteradapter',
+    'ojs/ojnavigationlist'
+  ],
   function (accUtils, ko, ArrayDataProvider, CoreRouter, ModuleRouterAdapter, KnockoutRouterAdapter) {
     function IntroViewModel(params) {
-
       // setup router for tabbar states
       const routes = [
         { path: '', redirect: 'overview' }, // Default route redirects to 'overview'
@@ -59,16 +60,16 @@ define(['accUtils',
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      self.connected = function () {
+      this.connected = function () {
         accUtils.announce('Introduction page loaded.', 'assertive');
-        document.title = "Introduction";
+        document.title = 'Introduction';
         // Implement further logic if needed
       };
 
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      self.disconnected = function () {
+      this.disconnected = function () {
         // Implement if needed
       };
 
@@ -76,7 +77,7 @@ define(['accUtils',
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      self.transitionCompleted = function () {
+      this.transitionCompleted = function () {
         // Implement if needed
       };
     }
