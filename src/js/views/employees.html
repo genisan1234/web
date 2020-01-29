@@ -25,8 +25,9 @@
   <div class="oj-flex oj-flex-items-padding">
     <div class="oj-flex-item">
       <oj-table id='table' class="banded-table" aria-label='Departments Table' first-selected-row="{{selectedRow}}"
-        on-first-selected-row-changed="[[selectionChangedHandler]]" selection-mode='{"row": "single", "column": "none"}'
-        data='[[dataProvider]]' columns-default.sortable='disabled' columns='[
+        on-first-selected-row-changed="[[selectionChangedHandler]]" on-current-row-changed="[[rowChangeHandler]]"
+        selection-mode='{"row": "single", "column": "none"}' data='[[dataProvider]]' columns-default.sortable='disabled'
+        columns='[
         {"headerText": "Employee Number", "field": "empno"},
         {"headerText": "Username", "field": "ename"},
         {"headerText": "Title", "field": "job", "template": "titleTemplate"},
@@ -43,19 +44,33 @@
         </template>
       </oj-table>
     </div>
-    <div class="oj-flex oj-flex-item oj-panel">
-      <div class="oj-flex-item oj-sm-12 oj-panel oj-panel-alt3">
-        <div id="avatar">Avatar</div>
-        <div id="name">Name</div>
-      </div>
-      <div class="oj-flex-item oj-sm-12 oj-panel oj-panel-alt2">
-        manager stuff here
-      </div>
+
+    <!-- Employee details panel -->
+
+    <div class="oj-flex oj-flex-item oj-sm-flex-items-padding">
+      <h2>Employee Details</h2>
+      <oj-bind-if test="[[!activeRow()]]">
+        <div>Select table row to see details</div>
+      </oj-bind-if>
+      <oj-bind-if test="[[activeRow()]]">
+        <div class="oj-flex-item oj-sm-12">
+          <div id="avatar">
+            <oj-avatar :aria-lable="[['avatar image for ' + detailEmployeeName() ]]"
+              src="[['css/images/' + detailEmployeeId() + '.png']]"></oj-avatar>
+          </div>
+          <div id="name">
+            <oj-bind-text value="[[detailEmployeeName()]]"></oj-bind-text>
+          </div>
+        </div>
+        <div class="oj-flex-item oj-sm-12">
+          manager stuff here
+        </div>
+      </oj-bind-if>
     </div>
   </div>
 
 
-
+  <!-- Edit dialog -->
   <oj-dialog style="display:none" id="editDialog" dialog-title="Edit Employee">
     <div slot="body">
       <oj-validation-group valid="{{groupValid}}">

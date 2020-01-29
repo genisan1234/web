@@ -18,12 +18,15 @@ define(
     'ojs/ojlabel',
     'ojs/ojinputtext',
     'ojs/ojinputnumber',
-    'ojs/ojvalidationgroup'
+    'ojs/ojvalidationgroup',
+    'ojs/ojavatar'
   ],
   function (accUtils, ko, ArrayDataProvider, ValidationBase) {
     function EmployeesViewModel() {
-
       this.selectedRow = ko.observable();
+      this.activeRow = ko.observable();
+
+      // edit dialog data variables
       this.editEmployeeId = ko.observable();
       this.editEmployeeName = ko.observable();
       this.editJob = ko.observable();
@@ -35,22 +38,31 @@ define(
 
       this.groupValid = ko.observable();
 
-      const baseURL = "https://apex.oracle.com/pls/apex/oraclejet/hr/employees/";
+      // detail data variables
+      this.detailEmployeeId = ko.observable();
+      this.detailEmployeeName = ko.observable();
+      this.detailJob = ko.observable();
+      this.detailSal = ko.observable();
+      this.detailHireDate = ko.observable();
+      this.detailMgr = ko.observable();
+      this.detailComm = ko.observable();
+      this.detailDeptNo = ko.observable();
+
+      const baseURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
 
       const salOptions = {
         style: 'currency',
         currency: 'USD'
       };
-      const salaryConverter = ValidationBase.Validation.converterFactory("number").createConverter(salOptions);
+      const salaryConverter = ValidationBase.Validation.converterFactory('number').createConverter(salOptions);
 
       // for date fields
       const dateOptions = {
         formatStyle: 'date',
         dateFormat: 'medium'
       };
-      const dateConverter = ValidationBase.Validation.converterFactory("datetime").createConverter(dateOptions);
+      const dateConverter = ValidationBase.Validation.converterFactory('datetime').createConverter(dateOptions);
 
-      // the use of arrow functions works just fine
       this.formatSal = data => salaryConverter.format(data);
       this.formatDate = data => dateConverter.format(data);
 
@@ -68,14 +80,13 @@ define(
               comm: item.comm,
               deptno: item.deptno
             };
-          })
+          });
           this.data(tempArray);
         });
 
       this.dataProvider = new ArrayDataProvider(
-        this.data, {
-        keyAttributes: 'empno'
-      });
+        this.data, { keyAttributes: 'empno' }
+      );
 
       this.selectionChangedHandler = (event) => {
         if (event.detail.value.data) {
@@ -90,9 +101,9 @@ define(
           this.editComm(data.comm);
           this.editDeptNo(data.deptno);
         }
-      }
+      };
 
-      this.save = (event) => {
+      this.save = () => {
         // save edits to employee
         let url = baseURL + this.editEmployeeId();
         let newData = {
@@ -103,7 +114,7 @@ define(
           mgr: this.editMgr(),
           comm: this.editComm(),
           deptno: this.editDeptNo()
-        }
+        };
 
         this.updateData(url, newData)
           .then((data) => {
@@ -122,23 +133,42 @@ define(
               });
             }
           });
-      }
+      };
 
-      this.cancel = (event) => {
+      this.cancel = () => {
         // cancel and close the dialog
         document.getElementById('editDialog').close();
-      }
+      };
 
       this.updateData = (url, data) => {
         return fetch(url, {
-          // credentials: 'same-origin', // 'include', default: 'omit'
-          method: 'PUT',             // 'GET', 'PUT', 'DELETE', etc.
+          method: 'PUT', // 'GET', 'PUT', 'DELETE', etc.
           body: JSON.stringify(data), // Use correct payload (matching 'Content-Type')
           headers: { 'Content-Type': 'application/json' },
         })
           .then(response => response.json())
-          .catch(error => console.error(error))
-      }
+          .catch(error => console.error(error));
+      };
+
+      this.rowChangeHandler = (event) => {
+        let data = event.detail;
+        if (event.type === 'currentRowChanged' && data.value != null) {
+          let rowIndex = data.value.rowIndex;
+          let emp = this.data()[rowIndex];
+          if (emp != null) {
+            this.detailEmployeeId(emp.empno);
+            this.detailEmployeeName(emp.ename);
+            this.detailJob(emp.job);
+            this.detailSal(emp.sal);
+            this.detailHireDate(emp.hiredate);
+            this.detailMgr(emp.mgr);
+            this.detailDeptNo(emp.deptno);
+          }
+          this.activeRow(data.value);
+          console.log('name: ' + this.detailEmployeeName());
+          console.log('Row: ' + JSON.stringify(this.activeRow()));
+        }
+      };
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
@@ -151,16 +181,16 @@ define(
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      this.connected = function () {
+      this.connected = () => {
         accUtils.announce('Employees content loaded', 'assertive');
-        document.title = "Intro - Employees";
+        document.title = 'Intro - Employees';
         // Implement further logic if needed
       };
 
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      this.disconnected = function () {
+      this.disconnected = () => {
         // Implement if needed
       };
 
@@ -168,7 +198,7 @@ define(
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      this.transitionCompleted = function () {
+      this.transitionCompleted = () => {
         // Implement if needed
       };
     }
