@@ -19,7 +19,8 @@ define(
     'ojs/ojinputtext',
     'ojs/ojinputnumber',
     'ojs/ojvalidationgroup',
-    'ojs/ojavatar'
+    'ojs/ojavatar',
+    'ojs/ojmessages'
   ],
   function (accUtils, ko, ArrayDataProvider, ValidationBase) {
     function EmployeesViewModel() {
@@ -49,6 +50,7 @@ define(
       this.detailDeptNo = ko.observable();
 
       const baseURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
+      const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/dept/';
 
       const salOptions = {
         style: 'currency',
@@ -65,6 +67,11 @@ define(
 
       this.formatSal = data => salaryConverter.format(data);
       this.formatDate = data => dateConverter.format(data);
+
+      this.depts = ko.observable();
+      $.getJSON(deptURL).then(depts => {
+        this.deptMap = new Map(Array.from(depts.items.map(dept => [dept.deptno, dept])))
+      });
 
       this.data = ko.observableArray();
       $.getJSON(baseURL)
@@ -159,7 +166,7 @@ define(
             this.detailEmployeeId(emp.empno);
             this.detailEmployeeName(emp.ename);
             this.detailJob(emp.job);
-            this.detailSal(emp.sal);
+            this.detailSal(salaryConverter.format(emp.sal));
             this.detailHireDate(emp.hiredate);
             this.detailMgr(emp.mgr);
             this.detailDeptNo(emp.deptno);

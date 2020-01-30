@@ -4,25 +4,8 @@
  -->
 <div class="oj-hybrid-padding">
   <a id="main"></a>
-  <h2>Employee details</h2>
-  <!-- <oj-list-view id="listview" aria-label="simple list" data="[[dataProvider]]">
-    <template slot="itemTemplate" data-oj-as="item">
-      <oj-avatar size="xs" src="[['css/images/'+item.data.id+'.png']]"></oj-avatar>
-      <div class="container">
-        <div>
-          <span class="name">
-            <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
-          </span>
-        </div>
-        <div>
-          <span class="oj-text-xs oj-text-secondary-color">
-            <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
-          </span>
-        </div>
-      </div>
-    </template>
-  </oj-list-view> -->
-  <div class="oj-flex oj-flex-items-padding">
+  <h2>Employees</h2>
+  <div class="oj-flex oj-sm-flex-items-initial">
     <div class="oj-flex-item">
       <oj-table id='table' class="banded-table" aria-label='Departments Table' first-selected-row="{{selectedRow}}"
         on-first-selected-row-changed="[[selectionChangedHandler]]" on-current-row-changed="[[rowChangeHandler]]"
@@ -45,28 +28,38 @@
       </oj-table>
     </div>
 
-    <!-- Employee details panel -->
-
-    <div class="oj-flex oj-flex-item oj-sm-flex-items-padding">
-      <h2>Employee Details</h2>
+    <!-- employee details panel -->
+    <div class="oj-flex-item" style="margin-left: 30px; min-width: 200px">
+      <h3>
+        <oj-label>Employee Details</oj-label>
+      </h3>
+      <hr style="margin-top:12px;">
       <oj-bind-if test="[[!activeRow()]]">
-        <div>Select table row to see details</div>
+        <span>Activate a row in the employees table to see details</span>
       </oj-bind-if>
       <oj-bind-if test="[[activeRow()]]">
-        <div class="oj-flex-item oj-sm-12">
-          <div id="avatar">
-            <oj-avatar :aria-lable="[['avatar image for ' + detailEmployeeName() ]]"
-              src="[['css/images/' + detailEmployeeId() + '.png']]"></oj-avatar>
-          </div>
-          <div id="name">
-            <oj-bind-text value="[[detailEmployeeName()]]"></oj-bind-text>
-          </div>
-        </div>
-        <div class="oj-flex-item oj-sm-12">
-          manager stuff here
-        </div>
+      <oj-avatar :aria-lable="[['avatar image for ' + detailEmployeeName() ]]"
+        src="[['css/images/' + detailEmployeeId() + '.png']]" style="float:right;"></oj-avatar>
+      <div id="itemName" style="font-size: 20px; font-weight: bolder;">
+        <oj-bind-text value="[[detailEmployeeName()]]"></oj-bind-text>
+      </div>
+      <div id="itemDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
+        <oj-bind-text value="[[detailDeptNo()]]"></oj-bind-text>
+      </div>
+      <div id="itemPrice">
+        <oj-bind-text value="[['Salary: ' + detailSal()]]"></oj-bind-text>
+      </div>
+      <div id="itemMgr">
+        <oj-bind-text value="[['Manager: ' + detailMgr()]]"></oj-bind-text>
+      </div>
+      <div>
+        <!-- <oj-chart type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto"
+                  hover-behavior="dim" legend.position="bottom" style="max-width: 400px;width:100%;height:350px;">
+        </oj-chart> -->
+      </div>
       </oj-bind-if>
     </div>
+
   </div>
 
 
