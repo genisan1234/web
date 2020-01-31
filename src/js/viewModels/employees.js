@@ -23,7 +23,8 @@ define(
     'ojs/ojmessages'
   ],
   function (accUtils, ko, ArrayDataProvider, ValidationBase) {
-    function EmployeesViewModel() {
+    function EmployeesViewModel(params) {
+      console.log(JSON.stringify(params.details));
       this.selectedRow = ko.observable();
       this.activeRow = ko.observable();
 
@@ -68,14 +69,16 @@ define(
       this.formatSal = data => salaryConverter.format(data);
       this.formatDate = data => dateConverter.format(data);
 
-      this.depts = ko.observable();
+      this.deptMap = ko.observable();
       $.getJSON(deptURL).then(depts => {
-        this.deptMap = new Map(Array.from(depts.items.map(dept => [dept.deptno, dept])))
+        this.deptMap(new Map(depts.items.map(dept => [dept.deptno, dept])));
       });
 
       this.data = ko.observableArray();
+      this.empMap = ko.observable();
       $.getJSON(baseURL)
         .then(users => {
+          this.empMap(new Map(users.items.map(emp => [emp.empno, emp])));
           let tempArray = users.items.map(item => {
             return {
               empno: item.empno,
@@ -96,18 +99,19 @@ define(
       );
 
       this.selectionChangedHandler = (event) => {
-        if (event.detail.value.data) {
-          let data = event.detail.value.data;
-          document.getElementById('editDialog').open();
-          this.editEmployeeId(data.empno);
-          this.editEmployeeName(data.ename);
-          this.editJob(data.job);
-          this.editSal(data.sal);
-          this.editHireDate(data.hiredate);
-          this.editMgr(data.mgr);
-          this.editComm(data.comm);
-          this.editDeptNo(data.deptno);
-        }
+        console.log('test');
+        // if (event.detail.value.data) {
+        //   let data = event.detail.value.data;
+        //   document.getElementById('editDialog').open();
+        //   this.editEmployeeId(data.empno);
+        //   this.editEmployeeName(data.ename);
+        //   this.editJob(data.job);
+        //   this.editSal(data.sal);
+        //   this.editHireDate(data.hiredate);
+        //   this.editMgr(data.mgr);
+        //   this.editComm(data.comm);
+        //   this.editDeptNo(data.deptno);
+        // }
       };
 
       this.save = () => {
@@ -124,12 +128,10 @@ define(
         };
 
         this.updateData(url, newData)
-          .then((data) => {
-            console.log(data);
+          .then(() => {
             document.getElementById('editDialog').close();
             let element = document.getElementById('table');
             let currentRow = element.currentRow;
-
             if (currentRow != null) {
               this.data.splice(currentRow.rowIndex, 1, {
                 empno: this.editEmployeeId(),
@@ -168,13 +170,25 @@ define(
             this.detailJob(emp.job);
             this.detailSal(salaryConverter.format(emp.sal));
             this.detailHireDate(emp.hiredate);
-            this.detailMgr(emp.mgr);
-            this.detailDeptNo(emp.deptno);
+            this.detailMgr(this.getMgr(emp.mgr));
+            this.detailDeptNo(this.getDept(emp.deptno));
           }
           this.activeRow(data.value);
-          console.log('name: ' + this.detailEmployeeName());
-          console.log('Row: ' + JSON.stringify(this.activeRow()));
         }
+      };
+
+      this.getDept = (id) => {
+        if (id) {
+          return this.deptMap().get(id).dname;
+        }
+        return 'N/A';
+      };
+
+      this.getMgr = (id) => {
+        if (id) {
+          return this.empMap().get(id).ename;
+        }
+        return 'N/A';
       };
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
