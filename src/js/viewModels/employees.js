@@ -98,20 +98,27 @@ define(
         this.data, { keyAttributes: 'empno' }
       );
 
+      this.isDisabled = ko.observable(true);
       this.selectionChangedHandler = (event) => {
-        console.log('test');
-        // if (event.detail.value.data) {
-        //   let data = event.detail.value.data;
-        //   document.getElementById('editDialog').open();
-        //   this.editEmployeeId(data.empno);
-        //   this.editEmployeeName(data.ename);
-        //   this.editJob(data.job);
-        //   this.editSal(data.sal);
-        //   this.editHireDate(data.hiredate);
-        //   this.editMgr(data.mgr);
-        //   this.editComm(data.comm);
-        //   this.editDeptNo(data.deptno);
-        // }
+        let data = this.selectedRow().data;
+        if (event.detail.previousValue.key) {
+          document.getElementById(event.detail.previousValue.key + '-btn').setProperty('disabled', true);
+        }
+        document.getElementById(data.empno + '-btn').setProperty('disabled', false);
+      };
+
+      this.editRow = (event) => {
+        event.detail.originalEvent.stopPropagation();
+        let data = this.selectedRow().data;
+        document.getElementById('editDialog').open();
+        this.editEmployeeId(data.empno);
+        this.editEmployeeName(data.ename);
+        this.editJob(data.job);
+        this.editSal(data.sal);
+        this.editHireDate(data.hiredate);
+        this.editMgr(data.mgr);
+        this.editComm(data.comm);
+        this.editDeptNo(data.deptno);
       };
 
       this.save = () => {

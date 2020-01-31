@@ -8,7 +8,7 @@
   <div class="oj-flex oj-sm-flex-items-initial">
     <div class="oj-flex-item">
       <oj-table id='table' class="banded-table" aria-label='Departments Table' first-selected-row="{{selectedRow}}"
-        on-current-row-changed="[[rowChangeHandler]]"
+        on-current-row-changed="[[rowChangeHandler]]" on-first-selected-row-changed="[[selectionChangedHandler]]"
         selection-mode='{"row": "single", "column": "none"}' data='[[dataProvider]]' columns-default.sortable='disabled'
         columns='[
         {"headerText": "Employee Number", "field": "empno"},
@@ -16,7 +16,7 @@
         {"headerText": "Title", "field": "job", "template": "titleTemplate"},
         {"headerText": "Hire Date", "field": "hiredate", "template": "hireDateTemplate"}, 
         {"headerText": "Salary", "field": "sal", "template": "salaryTemplate"},
-        {"headerText": "Action", "template": "editTemplate"}]'>
+        {"headerText": "Action", "field": "empno", "template": "editTemplate"}]'>
         <template slot="titleTemplate" data-oj-as="title">
           <oj-bind-text value="[[title.data]]"></oj-bind-text>
         </template>
@@ -27,7 +27,7 @@
           <oj-bind-text value="[[formatSal(salary.data)]]"></oj-bind-text>
         </template>
         <template slot="editTemplate" data-oj-as="edit">
-          <oj-button on-oj-action="[[selectionChangedHandler]]">Edit</oj-button>
+          <oj-button :id="[[edit.data + '-btn']]" disabled="{{isDisabled}}" on-oj-action="[[editRow]]">Edit</oj-button>
         </template>
       </oj-table>
     </div>
