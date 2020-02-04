@@ -3,13 +3,15 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class="oj-hybrid-padding">
+  <oj-messages id="messagesId" messages="[[messagesDataprovider]]" display="notification" position="[[positionObject]]">
+  </oj-messages>
   <h2>Employees</h2>
   <div class="oj-flex oj-sm-flex-items-initial">
     <div class="oj-flex-item">
-      <oj-table id='table' class="banded-table" aria-label='Departments Table' first-selected-row="{{selectedRow}}"
-        on-current-row-changed="[[rowChangeHandler]]" on-first-selected-row-changed="[[selectionChangedHandler]]"
-        selection-mode='{"row": "single", "column": "none"}' data='[[dataProvider]]' columns-default.sortable='disabled'
-        columns='[
+      <oj-table id='table' class="banded-table" aria-controls="detailContainer" aria-label='Employees Table'
+        first-selected-row="{{selectedRow}}" on-current-row-changed="[[rowChangeHandler]]"
+        on-first-selected-row-changed="[[selectionChangedHandler]]" selection-mode='{"row": "single", "column": "none"}'
+        data='[[dataProvider]]' columns-default.sortable='disabled' columns='[
         {"headerText": "Employee Number", "field": "empno"},
         {"headerText": "Username", "field": "ename"},
         {"headerText": "Title", "field": "job", "template": "titleTemplate"},
@@ -30,10 +32,9 @@
         </template>
       </oj-table>
     </div>
-    <!-- on-first-selected-row-changed="[[selectionChangedHandler]]" -->
 
     <!-- employee details panel -->
-    <div class="oj-flex-item" style="margin-left: 30px; min-width: 200px">
+    <div id="detailContainer" class="oj-flex-item" style="margin-left: 30px; min-width: 200px">
       <h3>
         <oj-label>Employee Details</oj-label>
       </h3>
@@ -42,25 +43,23 @@
         <span>Activate a row in the employees table to see details</span>
       </oj-bind-if>
       <oj-bind-if test="[[activeRow()]]">
-      <oj-avatar :aria-lable="[['avatar image for ' + detailEmployeeName() ]]"
-        src="[['css/images/' + detailEmployeeId() + '.png']]" style="float:right;"></oj-avatar>
-      <div id="itemName" style="font-size: 20px; font-weight: bolder;">
-        <oj-bind-text value="[[detailEmployeeName()]]"></oj-bind-text>
-      </div>
-      <div id="itemDesc" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
-        <oj-bind-text value="[[detailDeptNo()]]"></oj-bind-text>
-      </div>
-      <div id="itemPrice">
-        <oj-bind-text value="[['Salary: ' + detailSal()]]"></oj-bind-text>
-      </div>
-      <div id="itemMgr">
-        <oj-bind-text value="[['Manager: ' + detailMgr()]]"></oj-bind-text>
-      </div>
-      <div>
-        <!-- <oj-chart type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto"
-                  hover-behavior="dim" legend.position="bottom" style="max-width: 400px;width:100%;height:350px;">
-        </oj-chart> -->
-      </div>
+        <div aria-live="polite">
+          <oj-avatar :aria-lable="[['avatar image for ' + detailEmployeeName() ]]"
+            src="[['css/images/' + detailEmployeeId() + '.png']]" style="float:right;">
+          </oj-avatar>
+          <div id="employeeName" style="font-size: 20px; font-weight: bolder;">
+            <oj-bind-text value="[[detailEmployeeName()]]"></oj-bind-text>
+          </div>
+          <div id="departmentName" style="font-size: 14px; font-weight: 400; font-style:italic; margin-bottom: 10px;">
+            <oj-bind-text value="[[detailDeptNo()]]"></oj-bind-text>
+          </div>
+          <div id="employeeSalary">
+            <oj-bind-text value="[['Salary: ' + detailSal()]]"></oj-bind-text>
+          </div>
+          <div id="employeeManager">
+            <oj-bind-text value="[['Manager: ' + detailMgr()]]"></oj-bind-text>
+          </div>
+        </div>
       </oj-bind-if>
     </div>
 

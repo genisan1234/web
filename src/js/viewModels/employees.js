@@ -10,6 +10,7 @@ define(
     'knockout',
     'ojs/ojarraydataprovider',
     'ojs/ojvalidation-base',
+    'ojs/ojconverterutils-i18n',
     'ojs/ojknockout',
     'ojs/ojtable',
     'ojs/ojvalidation-datetime',
@@ -22,9 +23,32 @@ define(
     'ojs/ojavatar',
     'ojs/ojmessages'
   ],
-  function (accUtils, ko, ArrayDataProvider, ValidationBase) {
-    function EmployeesViewModel(params) {
-      console.log(JSON.stringify(params.details));
+  function (accUtils, ko, ArrayDataProvider, ValidationBase, ConverterUtilsI18n) {
+    function EmployeesViewModel() {
+
+
+      this.createMessage = (data) => {
+        return {
+          severity: 'confirmation',
+          summary: 'Updates saved',
+          detail: 'The changes for employee ' + data.ename + ' have been saved.',
+          closeAffordance: 'defaults',
+          autoTimeout: -1,
+          sound: 'defaults',
+          timestamp: ConverterUtilsI18n.IntlConverterUtils.dateToLocalIso(new Date())
+        };
+      };
+
+      this.positionObject = {
+        my: { vertical: 'top', horizontal: 'start' },
+        at: { vertical: 'top', horizontal: 'start' },
+        of: '#table'
+      }
+
+      this.messages = ko.observableArray([]);
+      this.messagesDataprovider = ko.observable();
+      this.messagesDataprovider(new ArrayDataProvider(this.messages));
+
       this.selectedRow = ko.observable();
       this.activeRow = ko.observable();
 
@@ -51,7 +75,7 @@ define(
       this.detailDeptNo = ko.observable();
 
       const baseURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
-      const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/dept/';
+      const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/departments/';
 
       const salOptions = {
         style: 'currency',
@@ -71,14 +95,14 @@ define(
 
       this.deptMap = ko.observable();
       $.getJSON(deptURL).then(depts => {
-        this.deptMap(new Map(depts.items.map(dept => [dept.deptno, dept])));
+        this.deptMap(new Map(Array.from(depts.items.map(dept => [dept.deptno, dept]))));
       });
 
       this.data = ko.observableArray();
       this.empMap = ko.observable();
       $.getJSON(baseURL)
         .then(users => {
-          this.empMap(new Map(users.items.map(emp => [emp.empno, emp])));
+          this.empMap(new Map(Array.from(users.items.map(emp => [emp.empno, emp]))));
           let tempArray = users.items.map(item => {
             return {
               empno: item.empno,
@@ -137,6 +161,8 @@ define(
         this.updateData(url, newData)
           .then(() => {
             document.getElementById('editDialog').close();
+            let newMessage = this.createMessage({ename: this.editEmployeeName()})
+            this.messages.push(newMessage);
             let element = document.getElementById('table');
             let currentRow = element.currentRow;
             if (currentRow != null) {
@@ -147,6 +173,7 @@ define(
                 sal: this.editSal(),
                 hiredate: this.editHireDate()
               });
+              document.getElementById(currentRow.rowKey + '-btn').setProperty('disabled', false);
             }
           });
       };
