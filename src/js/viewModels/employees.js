@@ -25,8 +25,6 @@ define(
   ],
   function (accUtils, ko, ArrayDataProvider, ValidationBase, ConverterUtilsI18n) {
     function EmployeesViewModel() {
-
-
       this.createMessage = (data) => {
         return {
           severity: 'confirmation',
@@ -43,7 +41,7 @@ define(
         my: { vertical: 'top', horizontal: 'start' },
         at: { vertical: 'top', horizontal: 'start' },
         of: '#table'
-      }
+      };
 
       this.messages = ko.observableArray([]);
       this.messagesDataprovider = ko.observable();
@@ -161,7 +159,7 @@ define(
         this.updateData(url, newData)
           .then(() => {
             document.getElementById('editDialog').close();
-            let newMessage = this.createMessage({ename: this.editEmployeeName()})
+            let newMessage = this.createMessage({ ename: this.editEmployeeName() });
             this.messages.push(newMessage);
             let element = document.getElementById('table');
             let currentRow = element.currentRow;

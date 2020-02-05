@@ -52,3 +52,8 @@
     -ms-flex-align: stretch;
     align-items: stretch;
   }
+
+  .chart-label {
+    padding-left: 40px;
+    font-weight: bolder;
+  }

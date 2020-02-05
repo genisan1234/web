@@ -20,6 +20,7 @@ define(
     function DepartmentsViewModel() {
       this.KnockoutTemplateUtils = KnockoutTemplateUtils;
       const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/departments/';
+      const empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
       this.dataReady = ko.observable(false);
 
       this.pagingModel = ko.observable();
@@ -29,39 +30,67 @@ define(
         return index < 1 ? '' : 'none';
       };
 
-      const tempData = [
-        {
-          "id": 0,
-          "series": "Series 1",
-          "group": "Group A",
-          "value": 42
-        },
-        {
-          "id": 1,
-          "series": "Series 2",
-          "group": "Group A",
-          "value": 55
-        },
-        {
-          "id": 2,
-          "series": "Series 3",
-          "group": "Group A",
-          "value": 36
-        },
-        {
-          "id": 3,
-          "series": "Series 4",
-          "group": "Group A",
-          "value": 22
-        },
-        {
-          "id": 4,
-          "series": "Series 5",
-          "group": "Group A",
-          "value": 22
-        }
-      ]
-      this.chartDataProvider = new ArrayDataProvider(tempData, {keyAttributes: 'id'});
+      fetch(empURL).then(response => response.json()).then(data => {
+        this.salData = this.processEmpData(data);
+      });
+
+      this.deptTotals = ko.observableArray([]);
+      this.chartDataProvider = new ArrayDataProvider(this.deptTotals, { keyAttributes: 'id' });
+      this.totalSalary = 0;
+
+      this.processEmpData = (data) => {
+        let tempArray = data.items;
+        this.deptTotals([
+          {
+            id: 0,
+            series: 'Accounting',
+            group: 'Group A',
+            value: 0
+          },
+          {
+            id: 1,
+            series: 'Research',
+            group: 'Group A',
+            value: 0
+          },
+          {
+            id: 2,
+            series: 'Sales',
+            group: 'Group A',
+            value: 0
+          },
+          {
+            id: 3,
+            series: 'Operations',
+            group: 'Group A',
+            value: 0
+          }
+        ]);
+        tempArray.forEach(item => {
+          switch (item.deptno) {
+            case 10:
+              this.totalSalary += item.sal;
+              this.deptTotals()[0].value += item.sal;
+              break;
+            case 20:
+              this.totalSalary += item.sal;
+              this.deptTotals()[1].value += item.sal;
+              break;
+            case 30:
+              this.totalSalary += item.sal;
+              this.deptTotals()[2].value += item.sal;
+              break;
+            case 40:
+              this.totalSalary += item.sal;
+              this.deptTotals()[3].value += item.sal;
+              break;
+            default:
+              console.log('Unknown department: ' + item.deptno);
+          }
+        });
+        return this.deptTotals(tempArray);
+      };
+
 
       this.dgDataProvider = ko.observable();
       this.deptMap = ko.observable();
@@ -86,14 +115,13 @@ define(
           // Set the Paging Control pagingModel
           this.pagingModel(filmStrip.getPagingModel());
         });
-      })
+      });
 
       this.getCellClassName = (cellContext) => {
         let key = cellContext.keys.column;
         if (key === 'deptno') {
           return 'oj-helper-justify-content-right small-cell';
-        } else if (key === 'dname' ||
-          key === 'loc') {
+        } else if (key === 'dname' || key === 'loc') {
           return 'oj-sm-justify-content-flex-start med-cell';
         }
         return '';
@@ -107,7 +135,7 @@ define(
           return 'width:40%';
         }
         return '';
-      }
+      };
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
@@ -122,7 +150,7 @@ define(
        */
       this.connected = () => {
         accUtils.announce('Department content loaded', 'assertive');
-        document.title = "Intro - Departments";
+        document.title = 'Intro - Departments';
         // Implement further logic if needed
       };
 
