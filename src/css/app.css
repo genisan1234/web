@@ -23,3 +23,32 @@
     position: unset;
     left: 0px;
 }
+
+.demo-filmstrip-item {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    font-size: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+    
+  .demo-stretch-items {
+    height: 100%;
+  }
+
+  .small-cell {
+      width: 20%;
+  }
+
+  .med-cell {
+      width: 40%;
+  }
+  
+  .demo-stretch-items .oj-filmstrip-item-container {
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+  }
