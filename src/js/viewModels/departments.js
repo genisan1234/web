@@ -121,7 +121,8 @@ define(
         let key = cellContext.keys.column;
         if (key === 'deptno') {
           return 'oj-helper-justify-content-right small-cell';
-        } else if (key === 'dname' || key === 'loc') {
+        }
+        if (key === 'dname' || key === 'loc') {
           return 'oj-sm-justify-content-flex-start med-cell';
         }
         return '';
@@ -131,7 +132,8 @@ define(
         let key = cellContext.data;
         if (key === 'deptno') {
           return 'width:20%';
-        } else if (key === 'dname' || key === 'loc') {
+        }
+        if (key === 'dname' || key === 'loc') {
           return 'width:40%';
         }
         return '';

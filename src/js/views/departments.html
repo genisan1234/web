@@ -6,8 +6,9 @@
   <h2>Department Details</h2>
   <div id="mainContainer" class="oj-flex" style="width: 100%;">
     <div class="oj-flex-item oj-sm-12">
+      <h3>Individual Department Information</h3>
       <oj-bind-if test="[[dataReady]]">
-        <oj-film-strip id="deptFilmstrip" aria-label="Deparment information" max-items-per-page="1"
+        <oj-film-strip id="deptFilmstrip" aria-label="Department information" max-items-per-page="1"
           arrow-visibility="hidden" class="demo-stretch-items" data-oj-context style="height: 300px;">
           <oj-bind-for-each data="[[depts]]">
             <template data-oj-as="depts">
@@ -29,6 +30,7 @@
     </div>
     <div class="oj-flex-item oj-flex">
       <div class="oj-flex-item">
+        <h3>Grid of department details</h3>
         <oj-data-grid id="datagrid" style="width:100%; min-width: 400px; height:200px;margin-bottom:5px" aria-label="Department information"
           data="[[dgDataProvider]]" header.column.style="[[getCellWidth]]"
           header.column.renderer="[[KnockoutTemplateUtils.getRenderer('header_template')]]"
@@ -72,8 +74,8 @@
         </script>
       </div>
       <div class="oj-flex-item">
-        <oj-label for="pieChart" class="chart-label">Salary by Department</oj-label>
-        <oj-chart id="pieChart" type="pie" data="[[chartDataProvider]]" animation-on-display="auto"
+        <h3>Salary by Department</h3>
+        <oj-chart id="pieChart" type="pie" data="[[chartDataProvider]]" aria-label="salary totals by department" animation-on-display="auto"
           animation-on-data-change="auto" hover-behavior="dim" style="width:100%;height:200px;">
           <template slot='itemTemplate' data-oj-as='item'>
             <oj-chart-item value='[[item.data.value]]' group-id='[[ [item.data.group] ]]'
