@@ -4,33 +4,32 @@
  -->
 <div class="oj-hybrid-padding">
   <h2>Department Details</h2>
-  <div id="mainContainer" class="oj-flex oj-panel" style="width: 100%;">
-    <div class="oj-flex-item oj-panel">
-      <div class="oj-flex-item oj-panel">
-        <oj-bind-if test="[[dataReady]]">
-          <oj-film-strip id="deptFilmstrip" aria-label="Deparment information" max-items-per-page="1"
-            arrow-visibility="hidden" class="demo-stretch-items" data-oj-context style="height: 300px;">
-            <oj-bind-for-each data="[[depts]]">
-              <template data-oj-as="depts">
-                <div class="oj-panel demo-filmstrip-item" :style.display="[[getItemInitialDisplay(depts.index)]]">
-                  <span>
-                    <oj-bind-text value="[[depts.data.name]]"></oj-bind-text>
-                  </span>
-                </div>
-              </template>
-            </oj-bind-for-each>
-          </oj-film-strip>
-          <div style="text-align: center;">
-            <div style="display: inline-block;margin-top: 4px;">
-              <oj-paging-control id="pagingControl" data="[[pagingModel]]" page-size="0"
-                page-options='{"type": "dots"}'>
-              </oj-paging-control>
-            </div>
+  <div id="mainContainer" class="oj-flex" style="width: 100%;">
+    <div class="oj-flex-item oj-sm-12">
+      <oj-bind-if test="[[dataReady]]">
+        <oj-film-strip id="deptFilmstrip" aria-label="Deparment information" max-items-per-page="1"
+          arrow-visibility="hidden" class="demo-stretch-items" data-oj-context style="height: 300px;">
+          <oj-bind-for-each data="[[depts]]">
+            <template data-oj-as="depts">
+              <div class="oj-panel demo-filmstrip-item" :style.display="[[getItemInitialDisplay(depts.index)]]">
+                <span>
+                  <oj-bind-text value="[[depts.data.name]]"></oj-bind-text>
+                </span>
+              </div>
+            </template>
+          </oj-bind-for-each>
+        </oj-film-strip>
+        <div style="text-align: center;">
+          <div style="display: inline-block;margin-top: 4px;">
+            <oj-paging-control id="pagingControl" data="[[pagingModel]]" page-size="0" page-options='{"type": "dots"}'>
+            </oj-paging-control>
           </div>
-        </oj-bind-if>
-      </div>
-      <div class="oj-flex-item oj-flex oj-panel">
-        <oj-data-grid id="datagrid" style="width:50%;height:200px;margin-bottom:5px" aria-label="Department information"
+        </div>
+      </oj-bind-if>
+    </div>
+    <div class="oj-flex-item oj-flex">
+      <div class="oj-flex-item">
+        <oj-data-grid id="datagrid" style="width:100%; min-width: 400px; height:200px;margin-bottom:5px" aria-label="Department information"
           data="[[dgDataProvider]]" header.column.style="[[getCellWidth]]"
           header.column.renderer="[[KnockoutTemplateUtils.getRenderer('header_template')]]"
           cell.renderer="[[KnockoutTemplateUtils.getRenderer('cell_template')]]" cell.class-name="[[getCellClassName]]">
@@ -71,17 +70,17 @@
             </a>
           </oj-bind-if>   
         </script>
-
-        <div class="oj-flex-item oj-panel">
-          <oj-chart id="pieChart" type="pie" data="[[chartDataProvider]]" animation-on-display="auto"
-            animation-on-data-change="auto" hover-behavior="dim" style="width:50%;height:200px;">
-            <template slot='itemTemplate' data-oj-as='item'>
-              <oj-chart-item value='[[item.data.value]]' group-id='[[ [item.data.group] ]]'
-                series-id='[[item.data.series]]'>
-              </oj-chart-item>
-            </template>
-          </oj-chart>
-        </div>
+      </div>
+      <div class="oj-flex-item">
+        <oj-chart id="pieChart" type="pie" data="[[chartDataProvider]]" animation-on-display="auto"
+          animation-on-data-change="auto" hover-behavior="dim" style="width:100%;height:200px;">
+          <template slot='itemTemplate' data-oj-as='item'>
+            <oj-chart-item value='[[item.data.value]]' group-id='[[ [item.data.group] ]]'
+              series-id='[[item.data.series]]'>
+            </oj-chart-item>
+          </template>
+        </oj-chart>
       </div>
     </div>
   </div>
+</div>
