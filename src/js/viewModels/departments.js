@@ -12,12 +12,13 @@ define(
     'ojs/ojarraydataprovider',
     'ojs/ojcontext',
     'ojs/ojknockouttemplateutils',
+    'ojs/ojconverter-number',
     'ojs/ojdatagrid',
     'ojs/ojfilmstrip',
     'ojs/ojchart',
     'ojs/ojpagingcontrol',
     'ojs/ojformlayout'],
-  function (accUtils, $, ko, ArrayDataProvider, Context, KnockoutTemplateUtils) {
+  function (accUtils, $, ko, ArrayDataProvider, Context, KnockoutTemplateUtils, NumberConverter) {
     function DepartmentsViewModel() {
       this.KnockoutTemplateUtils = KnockoutTemplateUtils;
       const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/departments/';
@@ -113,6 +114,13 @@ define(
             return 0;
         }
       };
+
+      this.usdNumberConverter = new NumberConverter.IntlNumberConverter({
+        style: "currency",
+        currency: "USD",
+        currencyDisplay: "code",
+        pattern: "¤ ##,##0.00"
+      });
 
       this.dgDataProvider = ko.observable();
       this.deptMap = ko.observable();

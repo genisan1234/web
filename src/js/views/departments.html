@@ -95,7 +95,7 @@
       <div class="oj-flex-item">
         <h3>Salary by Department</h3>
         <oj-chart id="pieChart" type="pie" data="[[chartDataProvider]]" aria-label="salary totals by department" animation-on-display="auto"
-          animation-on-data-change="auto" hover-behavior="dim" style="width:100%;height:200px;">
+          animation-on-data-change="auto" value-formats.value.converter="[[usdNumberConverter]]" value-formats.value.scaling="none" hover-behavior="dim" style="width:100%;height:200px;">
           <template slot='itemTemplate' data-oj-as='item'>
             <oj-chart-item value='[[item.data.value]]' group-id='[[ [item.data.group] ]]'
               series-id='[[item.data.series]]'>
