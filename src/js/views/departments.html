@@ -12,11 +12,30 @@
           arrow-visibility="hidden" class="demo-stretch-items" data-oj-context style="height: 300px;">
           <oj-bind-for-each data="[[depts]]">
             <template data-oj-as="depts">
+              <!-- Layout for filmstrip panel content -->
               <div class="oj-panel demo-filmstrip-item" :style.display="[[getItemInitialDisplay(depts.index)]]">
-                <span>
-                  <oj-bind-text value="[[depts.data.name]]"></oj-bind-text>
-                </span>
+                <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center">
+                  <div class="oj-flex-item oj-sm-flex-items-initial oj-sm-justify-content-center" style="min-width: 400px;">
+                    <img :src="[['css/images/'+depts.data.name+'.svg']]" alt="" class="item-image"/>
+                    <div class="item-title">
+                      <oj-bind-text value="[[styleName(depts.data.name)]]"></oj-bind-text>
+                    </div>
+                    <div class="item-location">
+                      <oj-bind-text value="[[styleName(depts.data.loc)]]"></oj-bind-text>
+                    </div>
+                    <div class="item-count">
+                      <oj-bind-text value="[[getEmpCount(depts.data.name)+ ' employees']]"></oj-bind-text>
+                    </div>
+                  </div>
+                  <div class="oj-flex-item item-title">
+                    
+                  </div>
+
+                </div>
+                
+                
               </div>
+              <!-- end layout -->
             </template>
           </oj-bind-for-each>
         </oj-film-strip>

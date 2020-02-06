@@ -15,14 +15,18 @@ define(
     'ojs/ojdatagrid',
     'ojs/ojfilmstrip',
     'ojs/ojchart',
-    'ojs/ojpagingcontrol'],
+    'ojs/ojpagingcontrol',
+    'ojs/ojformlayout'],
   function (accUtils, $, ko, ArrayDataProvider, Context, KnockoutTemplateUtils) {
     function DepartmentsViewModel() {
       this.KnockoutTemplateUtils = KnockoutTemplateUtils;
       const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/departments/';
       const empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
       this.dataReady = ko.observable(false);
-
+      this.accountingCount = ko.observable(0);
+      this.researchCount = ko.observable(0);
+      this.salesCount = ko.observable(0);
+      this.operationsCount = ko.observable(0);
       this.pagingModel = ko.observable();
       this.depts = ko.observableArray();
 
@@ -71,18 +75,22 @@ define(
             case 10:
               this.totalSalary += item.sal;
               this.deptTotals()[0].value += item.sal;
+              this.accountingCount(this.accountingCount() + 1);
               break;
             case 20:
               this.totalSalary += item.sal;
               this.deptTotals()[1].value += item.sal;
+              this.researchCount(this.researchCount() + 1);
               break;
             case 30:
               this.totalSalary += item.sal;
               this.deptTotals()[2].value += item.sal;
+              this.salesCount(this.salesCount() + 1);
               break;
             case 40:
               this.totalSalary += item.sal;
               this.deptTotals()[3].value += item.sal;
+              this.operationsCount(this.operationsCount() + 1);
               break;
             default:
               console.log('Unknown department: ' + item.deptno);
@@ -91,6 +99,20 @@ define(
         return this.deptTotals(tempArray);
       };
 
+      this.getEmpCount = (val) => {
+        switch (val) {
+          case 'accounting':
+            return this.accountingCount();
+          case 'research':
+            return this.researchCount();
+          case 'sales':
+            return this.salesCount();
+          case 'operations':
+            return this.operationsCount();
+          default:
+            return 0;
+        }
+      };
 
       this.dgDataProvider = ko.observable();
       this.deptMap = ko.observable();
@@ -98,7 +120,7 @@ define(
         this.deptMap(new Map(Array.from(depts.items.map(dept => [dept.deptno, dept]))));
         let tempDeptArray = [];
         let tempArray = depts.items.map(dept => {
-          tempDeptArray.push({ name: dept.dname });
+          tempDeptArray.push({ name: (dept.dname).toLowerCase(), loc: (dept.loc).toLowerCase() });
           return {
             deptno: dept.deptno,
             dname: dept.dname,
@@ -116,6 +138,11 @@ define(
           this.pagingModel(filmStrip.getPagingModel());
         });
       });
+
+      this.styleName = (string) => {
+        string = string.toLowerCase();
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      };
 
       this.getCellClassName = (cellContext) => {
         let key = cellContext.keys.column;

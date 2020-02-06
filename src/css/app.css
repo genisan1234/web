@@ -57,3 +57,27 @@
     padding-left: 40px;
     font-weight: bolder;
   }
+
+  .item-image {
+    width: 150px;
+    height: 150px;
+    float: left;
+  }
+
+  .item-title {
+    font-size: 32px;
+    font-weight: bolder;
+    text-align: start;
+  }
+
+  .item-location {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: start;
+  }
+
+  .item-count {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: start;
+  }
