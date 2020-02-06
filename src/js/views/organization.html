@@ -4,7 +4,7 @@
  -->
 <div class="oj-hybrid-padding">
   <h2>Organizational Structure</h2>
-  <oj-tree-view id="treeview" data="[[dataProvider]]" selection-mode="single"
+  <oj-tree-view id="treeview" data="[[dataProvider]]" selection-mode="single" expanded="{{expanded}}"
     aria-label="Tree view of departments and employees">
     <template slot="itemTemplate" data-oj-as="row">
       <oj-bind-if test="[[isLeaf(row.data.isLeaf)]]">

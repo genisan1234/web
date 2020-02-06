@@ -10,10 +10,11 @@ define(
     'accUtils',
     'ojs/ojarraytreedataprovider',
     'ojs/ojarraydataprovider',
+    'ojs/ojknockout-keyset',
     'ojs/ojtreeview',
     'ojs/ojavatar',
     'ojs/ojknockout'],
-  function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider) {
+  function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider, KeySet) {
     function OrganizationViewModel() {
       this.deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/dept/';
       this.empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
@@ -21,6 +22,7 @@ define(
       this.deptArray = ko.observable();
       this.empArray = ko.observable();
       this.dataProvider = ko.observable();
+      this.expanded = new KeySet.ObservableKeySet().add(['research']);
 
       fetch(this.empURL)
         .then((response) => {
