@@ -236,7 +236,7 @@ define(
        * after being disconnected.
        */
       this.connected = () => {
-        accUtils.announce('Employees content loaded', 'assertive');
+        accUtils.announce('Employees content loaded.  As rows in the employees table are selected, more details are presented in the employee detail panel.', 'assertive');
         document.title = 'Intro - Employees';
         // Implement further logic if needed
       };
