@@ -2,16 +2,15 @@
  Copyright (c) 2014, 2020, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
-<div class="oj-hybrid-padding">
+ <div class="oj-hybrid-padding">
   <div id="mainContainer" class="oj-flex" style="width: 100%;">
     <div class="oj-flex oj-flex-item oj-sm-12 oj-sm-flex-direction-column">
       <div class="oj-flex-item">
         <h3>Individual Department Information</h3>
       </div>
-      <div
-        class="oj-flex oj-flex-item oj-sm-flex-items-initial oj-sm-justify-content-center oj-sm-flex-direction-column">
-        <oj-bind-if test="[[dataReady]]">
-          <div class="oj-flex-item">
+      <oj-bind-if test="[[dataReady]]">
+        <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center">
+          <div class="oj-flex-item fs-container">
             <oj-film-strip id="deptFilmstrip" aria-label="Department information" max-items-per-page="1"
               arrow-visibility="hidden" class="demo-stretch-items" data-oj-context
               style="height: 200px; max-width: 500px;">
@@ -43,6 +42,8 @@
               </oj-bind-for-each>
             </oj-film-strip>
           </div>
+        </div>
+        <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center">
           <div class="oj-flex-item">
             <div style="text-align: center;">
               <div style="display: inline-block;margin-top: 4px;">
@@ -52,8 +53,8 @@
               </div>
             </div>
           </div>
-        </oj-bind-if>
-      </div>
+        </div>
+      </oj-bind-if>
     </div>
     <div class="oj-flex-item oj-flex">
       <div class="oj-flex-item">
@@ -63,7 +64,7 @@
           header.column.renderer="[[KnockoutTemplateUtils.getRenderer('header_template')]]"
           cell.renderer="[[KnockoutTemplateUtils.getRenderer('cell_template')]]" cell.class-name="[[getCellClassName]]">
         </oj-data-grid>
-
+​
         <script type="text/html" id="header_template">
           <oj-bind-if test="[[$context.key=='deptno']]">
             <span>
@@ -81,7 +82,7 @@
             </span>
           </oj-bind-if>                          
         </script>
-
+​
         <script type="text/html" id="cell_template">
           <oj-bind-if test="[[$context.keys.column=='deptno']]">
             <span>

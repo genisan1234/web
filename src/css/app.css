@@ -61,6 +61,10 @@
     height: 100%;
   }
 
+  .fs-container {
+    width: 420px;
+  }
+
   .small-cell {
       width: 20%;
   }
