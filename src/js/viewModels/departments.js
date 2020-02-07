@@ -36,7 +36,7 @@ define(
       };
 
       fetch(empURL).then(response => response.json()).then(data => {
-        this.salData = this.processEmpData(data);
+        this.processEmpData(data);
       });
 
       this.deptTotals = ko.observableArray([]);
@@ -49,25 +49,25 @@ define(
           {
             id: 0,
             series: 'Accounting',
-            group: 'Group A',
+            group: 'Department',
             value: 0
           },
           {
             id: 1,
             series: 'Research',
-            group: 'Group A',
+            group: 'Department',
             value: 0
           },
           {
             id: 2,
             series: 'Sales',
-            group: 'Group A',
+            group: 'Department',
             value: 0
           },
           {
             id: 3,
             series: 'Operations',
-            group: 'Group A',
+            group: 'Department',
             value: 0
           }
         ]);
@@ -97,7 +97,6 @@ define(
               console.log('Unknown department: ' + item.deptno);
           }
         });
-        return this.deptTotals(tempArray);
       };
 
       this.getEmpCount = (val) => {
@@ -123,9 +122,7 @@ define(
       });
 
       this.dgDataProvider = ko.observable();
-      this.deptMap = ko.observable();
       $.getJSON(deptURL).then((depts) => {
-        this.deptMap(new Map(Array.from(depts.items.map(dept => [dept.deptno, dept]))));
         let tempDeptArray = [];
         let tempArray = depts.items.map(dept => {
           tempDeptArray.push({ name: (dept.dname).toLowerCase(), loc: (dept.loc).toLowerCase() });

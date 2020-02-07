@@ -21,7 +21,8 @@ define(
     'ojs/ojinputnumber',
     'ojs/ojvalidationgroup',
     'ojs/ojavatar',
-    'ojs/ojmessages'
+    'ojs/ojmessages',
+    'ojs/ojformlayout'
   ],
   function (accUtils, ko, ArrayDataProvider, ValidationBase, ConverterUtilsI18n) {
     function EmployeesViewModel() {
@@ -213,14 +214,14 @@ define(
         if (id) {
           return this.deptMap().get(id).dname;
         }
-        return 'N/A';
+        return 'No Department';
       };
 
       this.getMgr = (id) => {
         if (id) {
           return this.empMap().get(id).ename;
         }
-        return 'N/A';
+        return 'No Manager';
       };
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
