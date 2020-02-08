@@ -1,6 +1,6 @@
 {
   "baseUrl": "js",
-  "use": "local",
+  "use": "cdn",
 
   "cdns": {
     "jet": {
