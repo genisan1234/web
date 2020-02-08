@@ -1,0 +1,25 @@
+<!--
+ Copyright (c) 2014, 2020, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding">
+  <h2>Organizational Structure</h2>
+<oj-label id="TreeViewLabel">TreeView of Departments and Employees</oj-label>
+  <oj-tree-view id="treeview" data="[[dataProvider]]" selection-mode="single" expanded="{{expanded}}"
+aria-labelledby="TreeViewLabel">
+    <template slot="itemTemplate" data-oj-as="row">
+      <oj-bind-if test="[[isLeaf(row.data.isLeaf)]]">
+        <span class="demo-person-icon-24 demo-icon-font-24"></span>
+        <span>
+          <oj-bind-text value="[[row.data.title]]"></oj-bind-text>
+        </span>
+      </oj-bind-if>
+      <oj-bind-if test="[[!isLeaf(row.data.isLeaf)]]">
+        <span class="demo-people-icon-24 demo-icon-font-24" style="vertical-align: middle;"></span>
+        <span class="oj-treeview-item-text">
+          <oj-bind-text value="[[row.data.title]]"></oj-bind-text>
+        </span>
+      </oj-bind-if>
+    </template>
+  </oj-tree-view>
+</div>
