@@ -25,7 +25,14 @@
           <oj-bind-text value="[[formatDate(hireDate.data)]]"></oj-bind-text>
         </template>
         <template slot="salaryTemplate" data-oj-as="salary">
-          <oj-bind-text value="[[formatSal(salary.data)]]"></oj-bind-text>
+          <oj-bind-if test="[[salary.data < 1000]]">
+            <span style="color: red;">
+              <oj-bind-text value="[['( '+ formatSal(salary.data) + ' )']]"></oj-bind-text>
+            </span>
+          </oj-bind-if>
+          <oj-bind-if test="[[salary.data > 1000]]">
+            <oj-bind-text value="[[formatSal(salary.data)]]"></oj-bind-text>
+          </oj-bind-if>
         </template>
         <template slot="editTemplate" data-oj-as="edit">
           <oj-button :id="[[edit.data + '-btn']]" disabled="{{isDisabled}}" on-oj-action="[[editRow]]">Edit</oj-button>
