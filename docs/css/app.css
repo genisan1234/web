@@ -1,0 +1,113 @@
+/*
+    Document   : override
+    Created on : 2020-01-24
+    Author     : Donald Raikes
+    Description:
+        This is where any of your application specific styles should be included
+*/
+
+.sendOffScreen {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.hideSkipNav {
+    position: absolute;
+    left: -1000px;
+}
+.hideSkipNav:focus {
+    position: unset;
+    left: 0px;
+}
+
+.emp-avatar {
+  float: left;
+  margin: 0 20 20 0;
+}
+
+.emp-details {
+  padding-left: 80px; 
+  width: 200px;
+}
+
+.emp-dept {
+  font-size: 14px; 
+  font-weight: 400; 
+  font-style: italic; 
+  margin-bottom: 10px;
+}
+
+.emp-name {
+  font-size: 20px; 
+  font-weight: bolder;
+}
+
+.demo-filmstrip-item {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    font-size: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+    
+  .demo-stretch-items {
+    height: 100%;
+  }
+
+  .fs-container {
+    width: 420px;
+  }
+
+  .small-cell {
+      width: 20%;
+  }
+
+  .med-cell {
+      width: 40%;
+  }
+  
+  .demo-stretch-items .oj-filmstrip-item-container {
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+  }
+
+  .chart-label {
+    padding-left: 40px;
+    font-weight: bolder;
+  }
+
+  .item-image {
+    width: 150px;
+    height: 150px;
+    float: left;
+  }
+
+  .item-title {
+    font-size: 32px;
+    font-weight: bolder;
+    text-align: start;
+  }
+
+  .item-location {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: start;
+  }
+
+  .item-count {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: start;
+  }
+
+  .table-size {
+    height: 500px;
+  }
