@@ -13,34 +13,53 @@ define(
     'ojs/ojknockout-keyset',
     'ojs/ojtreeview',
     'ojs/ojavatar',
-    'ojs/ojknockout'],
+    'ojs/ojknockout',
+    'ojs/ojformlayout',
+    'ojs/ojlabel',
+    'ojs/ojconverterutils-i18n',
+    'ojs/ojlabelvalue',
+    'ojs/ojinputtext',
+    'ojs/ojdatetimepicker',
+    'ojs/ojinputnumber',
+    'ojs/ojselectsingle',
+    'ojs/ojradioset'],
   function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider, KeySet) {
     function OrganizationViewModel() {
-      this.deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/dept/';
-      this.empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
+      const deptURL = 'https://apex.oracle.com/pls/apex/accjet/hr/departments/';
+      const empURL = 'https://apex.oracle.com/pls/apex/accjet/hr/employees/';
 
-      this.deptArray = ko.observable();
+      this.deptDP = ko.observable();
+      this.depArray = ko.observable();
       this.empArray = ko.observable();
+      this.depsDataProvider = ko.observable();
       this.dataProvider = ko.observable();
       this.expanded = new KeySet.ObservableKeySet().add(['research']);
+      this.itemSelected = ko.observable(false);
+      this.empDetails = ko.observable();
 
-      fetch(this.empURL)
+      fetch(empURL)
         .then((response) => {
           return response.json();
         })
         .then((body) => {
           let tempArray = this.createTreeData(body.items);
-          // this.buildStructure(body.items);
           this.empArray(new ArrayDataProvider(body.items, { keyAttributes: 'empno' }));
           this.dataProvider(new ArrayTreeDataProvider(tempArray, { keyAttributes: 'id' }));
         });
 
-      fetch(this.deptURL)
+      fetch(deptURL)
         .then((response) => {
           return response.json();
         })
         .then((body) => {
-          this.deptArray(new ArrayDataProvider(body.items, { keyAttributes: 'deptno' }));
+          let tempArray = body.items.map(item => {
+            return {
+              value: item.deptno,
+              label: item.dname
+            }
+          })
+          this.depArray(tempArray);
+          this.deptDP(new ArrayDataProvider(body.items, { keyAttributes: 'deptno' }));
         });
 
       this.createTreeData = (baseData) => {
@@ -53,19 +72,19 @@ define(
         baseData.forEach(emp => {
           switch (emp.deptno) {
             case 10:
-              org.Accounting.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
+              org.Accounting.children.push({ title: emp.ename, id: emp.empno, isLeaf: true });
               break;
             case 20:
-              org.Research.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
+              org.Research.children.push({ title: emp.ename, id: emp.empno, isLeaf: true });
               break;
             case 30:
-              org.Sales.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
+              org.Sales.children.push({ title: emp.ename, id: emp.empno, isLeaf: true });
               break;
             case 40:
-              org.Operations.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
+              org.Operations.children.push({ title: emp.ename, id: emp.empno, isLeaf: true });
               break;
             default:
-              org.Accounting.children.push({ title: emp.ename, id: emp.ename, isLeaf: true });
+              org.Accounting.children.push({ title: emp.ename, id: emp.empno, isLeaf: true });
           }
         });
         let finalOrg = [
@@ -85,33 +104,13 @@ define(
         return finalOrg;
       };
 
-      // Experimenting on recursion of sorts
-      // let tempStucture = new Set();
-      // this.getChildren = (obj) => {
-      //   let children = [];
-      //   obj.forEach(emp => {
-
-      //   });
-      //   return children;
-      // };
-      // this.buildStructure = (data) => {
-      //   data.forEach(emp => {
-      //     let obj = {
-      //       id: emp.empno,
-      //       name: emp.ename,
-      //       mgr: emp.mgr,
-      //       children: []
-      //     };
-      //     data.forEach(emp2 => {
-      //       if (emp2.mgr === emp.empno) { obj.children.push(emp2.ename); }
-      //     });
-      //     tempStucture.add(obj);
-      //   });
-      //   console.log(tempStucture.keys());
-      //   console.log('Test: ' + JSON.stringify([...tempStucture]));
-      // };
-
-      // end experiments
+      let jobsArray = [
+        {label:'CLERK', value: 'CLERK'},
+        {label:'SALESMAN', value: 'SALESMAN'},
+        {label:'ANALYST', value: 'ANALYST'},
+        {label:'MANAGER', value: 'MANAGER'}
+      ]
+      this.jobOptions = new ArrayDataProvider(jobsArray, {keyAttributes: 'value'});
 
       this.isLeaf = (value) => {
         return value;
@@ -120,6 +119,35 @@ define(
       this.getInitials = (value) => {
         return value.title.slice(0, 1);
       };
+
+      this.getItemText = (context) => {
+        return context.data.dname;
+      }
+
+      this.selectionHandler = (event) => {
+        let temp = event.detail.value.values();
+        if (temp.size > 0) {
+          fetch(empURL + temp.entries().next().value[0])
+            .then(response => response.json())
+            .then(emp => {
+              console.log('Details: ' + JSON.stringify(emp));
+              let tempObj = {
+                empno: emp.empno,
+                ename: emp.ename,
+                job: emp.job,
+                mgr: emp.mgr,
+                hiredate: emp.hiredate,
+                sal: emp.sal,
+                deptno: emp.deptno
+              };
+              this.empDetails(tempObj);
+              this.depsDataProvider(new ArrayDataProvider(this.depArray(), {keyAttributes: 'value'}));
+              this.itemSelected(true);
+            });
+        } else {
+          this.itemSelected(false);
+        }
+      }
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.

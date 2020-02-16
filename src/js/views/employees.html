@@ -27,7 +27,8 @@
         <template slot="salaryTemplate" data-oj-as="salary">
           <oj-bind-if test="[[salary.data < 1000]]">
             <span style="color: red;">
-              <oj-bind-text value="[['( '+ formatSal(salary.data) + ' )']]"></oj-bind-text>
+              <oj-bind-text value="[[formatSal(salary.data)]]"></oj-bind-text>
+              <sup>*</sup>
             </span>
           </oj-bind-if>
           <oj-bind-if test="[[salary.data > 1000]]">

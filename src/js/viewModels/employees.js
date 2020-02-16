@@ -26,6 +26,10 @@ define(
   ],
   function (accUtils, ko, ArrayDataProvider, ValidationBase, ConverterUtilsI18n) {
     function EmployeesViewModel() {
+
+      const empURL = 'https://apex.oracle.com/pls/apex/accjet/hr/employees/';
+      const deptURL = 'https://apex.oracle.com/pls/apex/accjet/hr/departments/';
+
       this.createMessage = (data) => {
         return {
           severity: 'confirmation',
@@ -73,9 +77,6 @@ define(
       this.detailComm = ko.observable();
       this.detailDeptNo = ko.observable();
 
-      const baseURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
-      const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/departments/';
-
       const salOptions = {
         style: 'currency',
         currency: 'USD'
@@ -99,7 +100,7 @@ define(
 
       this.data = ko.observableArray();
       this.empMap = ko.observable();
-      $.getJSON(baseURL)
+      $.getJSON(empURL)
         .then(users => {
           this.empMap(new Map(Array.from(users.items.map(emp => [emp.empno, emp]))));
           let tempArray = users.items.map(item => {
@@ -146,7 +147,7 @@ define(
 
       this.save = () => {
         // save edits to employee
-        let url = baseURL + this.editEmployeeId();
+        let url = empURL + this.editEmployeeId();
         let newData = {
           ename: this.editEmployeeName(),
           job: this.editJob(),

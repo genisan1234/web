@@ -21,8 +21,8 @@ define(
   function (accUtils, $, ko, ArrayDataProvider, Context, KnockoutTemplateUtils, NumberConverter) {
     function DepartmentsViewModel() {
       this.KnockoutTemplateUtils = KnockoutTemplateUtils;
-      const deptURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/departments/';
-      const empURL = 'https://apex.oracle.com/pls/apex/oraclejet/hr/employees/';
+      const deptURL = 'https://apex.oracle.com/pls/apex/accjet/hr/departments/';
+      const empURL = 'https://apex.oracle.com/pls/apex/accjet/hr/employees/';
       this.dataReady = ko.observable(false);
       this.accountingCount = ko.observable(0);
       this.researchCount = ko.observable(0);
