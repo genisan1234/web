@@ -58,9 +58,9 @@
     </div>
     <div class="oj-flex-item oj-flex">
       <div class="oj-flex-item">
-        <h3 id="gridLabel">Grid of department details</h3>
+        <h3 id="gridLabel">Departments</h3>
         <oj-data-grid id="datagrid" style="width:100%; min-width: 400px; height:200px;margin-bottom:5px"
-          aria-labelledby="gridLabel" data="[[dgDataProvider]]" header.column.style="[[getCellWidth]]"
+          aria-label="Grid of department details" data="[[dgDataProvider]]" header.column.style="[[getCellWidth]]"
           header.column.renderer="[[KnockoutTemplateUtils.getRenderer('header_template')]]"
           cell.renderer="[[KnockoutTemplateUtils.getRenderer('cell_template')]]" cell.class-name="[[getCellClassName]]">
         </oj-data-grid>
