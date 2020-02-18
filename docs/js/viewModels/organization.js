@@ -106,7 +106,7 @@ define(
 
       let jobsArray = [
         {label:'CLERK', value: 'CLERK'},
-        {label:'SALESMAN', value: 'SALESMAN'},
+        {label:'SALESPERSON', value: 'SALESPERSON'},
         {label:'ANALYST', value: 'ANALYST'},
         {label:'MANAGER', value: 'MANAGER'}
       ]
@@ -130,7 +130,6 @@ define(
           fetch(empURL + temp.entries().next().value[0])
             .then(response => response.json())
             .then(emp => {
-              console.log('Details: ' + JSON.stringify(emp));
               let tempObj = {
                 empno: emp.empno,
                 ename: emp.ename,

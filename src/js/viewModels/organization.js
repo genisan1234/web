@@ -106,7 +106,7 @@ define(
 
       let jobsArray = [
         {label:'CLERK', value: 'CLERK'},
-        {label:'SALESMAN', value: 'SALESMAN'},
+        {label:'SALESPERSON', value: 'SALESPERSON'},
         {label:'ANALYST', value: 'ANALYST'},
         {label:'MANAGER', value: 'MANAGER'}
       ]
