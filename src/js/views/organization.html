@@ -7,9 +7,10 @@
     <div class="oj-flex-item">
       <h2>Organizational Structure</h2>
       <div>
+        <div id="describeTree" class="hide">TreeView of Departments and Employees. Press spacebar to select an item, and tab to move to a form to change details about the selected item.</div>
         <oj-tree-view id="treeview" data="[[dataProvider]]" selection-mode="single"
           on-selected-changed="[[selectionHandler]]" expanded="{{expanded}}"
-          aria-label="TreeView of Departments and Employees">
+          aria-describedby="describeTree">
           <template slot="itemTemplate" data-oj-as="row">
             <oj-bind-if test="[[isLeaf(row.data.isLeaf)]]">
               <span class="demo-person-icon-24 demo-icon-font-24"></span>
@@ -44,17 +45,7 @@
               <oj-input-text id="mgr-id" label-hint="Manager" value="{{empDetails().mgr}}" readonly="true"></oj-input-text>
               <oj-input-date id="hiredate" label-hint="Hire date" value="{{empDetails().hiredate}}"></oj-input-date>
               <oj-input-number id="salary" label-hint="Salary" value="{{empDetails().sal}}" min="0" step="1"></oj-input-number>
-              <oj-radioset id="dept-id" label-hint="Departments" options="[[depsDataProvider]]" value="[[empDetails().deptno]]">
-
-              </oj-radioset>
-              <!-- <oj-select-single id="dept-id" label-hint="Department" data="[[depsDataProvider]]" value="{{empDetails().deptno}}" 
-              item-text="[[getItemText]]">
-                <template slot="itemTemplate">
-                  <div>
-                    <oj-bind-text value="[[$current.data.dname]]"></oj-bind-text>
-                  </div>
-                </template>
-              </oj-select-single> -->
+              <oj-radioset id="dept-id" label-hint="Departments" options="[[depsDataProvider]]" value="[[empDetails().deptno]]"></oj-radioset>
             </oj-form-layout>
           </div>
         </oj-bind-if>

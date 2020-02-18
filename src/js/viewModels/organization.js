@@ -130,7 +130,6 @@ define(
           fetch(empURL + temp.entries().next().value[0])
             .then(response => response.json())
             .then(emp => {
-              console.log('Details: ' + JSON.stringify(emp));
               let tempObj = {
                 empno: emp.empno,
                 ename: emp.ename,
