@@ -128,7 +128,9 @@ define(
         if (event.detail.previousValue.key) {
           document.getElementById(event.detail.previousValue.key + '-btn').setProperty('disabled', true);
         }
+        if (event.detail.value.key) {
         document.getElementById(data.empno + '-btn').setProperty('disabled', false);
+        }
       };
 
       this.editRow = (event) => {
