@@ -44,6 +44,10 @@ define(['accUtils'],
       };
     }
 
+	self.openWCAG = function() {
+		window.open("https://www.w3.org/TR/WCAG21/","_blank");
+	}
+
     /*
      * Returns an instance of the ViewModel providing one instance of the ViewModel. If needed,
      * return a constructor for the ViewModel so that the ViewModel is constructed
