@@ -5,11 +5,9 @@
 <div class="oj-hybrid-padding">
   <div class="oj-flex">
     <div class="oj-flex-item">
-      <h2>Organizational Structure</h2>
       <div>
         <oj-tree-view id="treeview" data="[[dataProvider]]" selection-mode="single"
-          on-selected-changed="[[selectionHandler]]" expanded="{{expanded}}"
-          aria-label="TreeView of Departments and Employees. Press enter to select an item, and tab to move to a form to change details about the selected item.">
+          on-selected-changed="[[selectionHandler]]" expanded="{{expanded}}">
           <template slot="itemTemplate" data-oj-as="row">
             <oj-bind-if test="[[isLeaf(row.data.isLeaf)]]">
               <span class="demo-person-icon-24 demo-icon-font-24"></span>
@@ -28,7 +26,6 @@
       </div>
     </div>
     <div class="oj-flex-item oj-sm-6">
-      <h2 id="empDetailsLabel">Employee Details</h2>
       <div>
         <oj-bind-if test="[[!itemSelected()]]">
           <div>
@@ -37,7 +34,7 @@
         </oj-bind-if>
         <oj-bind-if test="[[itemSelected()]]">
           <div>
-            <oj-form-layout id="empdetails" label-edge="top" aria-labelledby="empDetailsLabel">
+            <oj-form-layout id="empdetails" label-edge="top">
               <oj-input-number id="empno" label-hint="Employee Id" value="{{empDetails().empno}}" readonly="true">
               </oj-input-number>
               <oj-input-text id="ename" label-hint="Employee Name" value="{{empDetails().ename}}"></oj-input-text>
