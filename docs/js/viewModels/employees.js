@@ -45,7 +45,7 @@ define(
       this.positionObject = {
         my: { vertical: 'top', horizontal: 'start' },
         at: { vertical: 'top', horizontal: 'start' },
-        of: '#table'
+        of: 'window'
       };
 
       this.messages = ko.observableArray([]);
