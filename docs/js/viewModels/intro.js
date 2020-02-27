@@ -60,9 +60,7 @@ define(
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      this.connected = function () {
-        accUtils.announce('Introduction page loaded.', 'assertive');
-        document.title = 'Introduction';
+      self.connected = function () {
         // Implement further logic if needed
       };
 
