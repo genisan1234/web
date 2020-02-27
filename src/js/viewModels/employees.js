@@ -238,9 +238,7 @@ define(
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      this.connected = () => {
-        accUtils.announce('Employees content loaded.  As rows in the employees table are selected, more details are presented in the employee detail panel.', 'assertive');
-        document.title = 'Intro - Employees';
+      self.connected = () => {
         // Implement further logic if needed
       };
 

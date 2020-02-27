@@ -159,9 +159,7 @@ define(
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      this.connected = function () {
-        accUtils.announce('Organization content loaded', 'assertive');
-        document.title = 'Intro - Organization';
+      self.connected = function () {
         // Implement further logic if needed
       };
 

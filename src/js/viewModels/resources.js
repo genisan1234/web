@@ -22,8 +22,6 @@ define(['accUtils'],
        * after being disconnected.
        */
       self.connected = function() {
-        accUtils.announce('Resources page loaded.', 'assertive');
-        document.title = "Resources";
         // Implement further logic if needed
       };
 
