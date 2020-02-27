@@ -5,7 +5,6 @@
 <div class="oj-hybrid-padding">
   <oj-messages id="messagesId" messages="[[messagesDataprovider]]" display="notification" position="[[positionObject]]">
   </oj-messages>
-  <h2>Employees</h2>
   <div class="oj-flex oj-sm-flex-items-initial">
     <div class="oj-flex-item">
       <oj-table id='table' class="table-size" aria-label='Employees Table' first-selected-row="{{selectedRow}}"
@@ -43,9 +42,6 @@
 
     <!-- employee details panel -->
     <div id="detailContainer" class="oj-flex-item" style="margin-left: 30px; min-width: 200px">
-      <h3>
-        <oj-label>Employee Details</oj-label>
-      </h3>
       <hr style="margin-top:12px;">
       <oj-bind-if test="[[!activeRow()]]">
         <span>Activate a row in the employees table to see details</span>
