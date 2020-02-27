@@ -7,7 +7,7 @@
   </oj-messages>
   <div class="oj-flex oj-sm-flex-items-initial">
     <div class="oj-flex-item">
-      <oj-table id='table' class="table-size" aria-label='Employees Table' first-selected-row="{{selectedRow}}"
+      <oj-table id='table' class="table-size" first-selected-row="{{selectedRow}}"
         on-current-row-changed="[[rowChangeHandler]]" on-first-selected-row-changed="[[selectionChangedHandler]]"
         selection-mode='{"row": "single", "column": "none"}' data='[[dataProvider]]' columns-default.sortable='disabled'
         columns='[
@@ -47,12 +47,12 @@
         <span>Activate a row in the employees table to see details</span>
       </oj-bind-if>
       <oj-bind-if test="[[activeRow()]]">
-        <div aria-live="polite">
-          <oj-avatar :aria-lable="[['avatar image for ' + detailEmployeeName() ]]"
+        <div>
+          <oj-avatar 
             src="[['css/images/' + detailEmployeeId() + '.png']]" class="emp-avatar">
           </oj-avatar>
           <div class="emp-details">
-            <div id="employeeName" aria-label="employee name" class="emp-name">
+            <div id="employeeName"  class="emp-name">
               <oj-bind-text value="[[detailEmployeeName()]]"></oj-bind-text>
             </div>
             <div id="departmentName" class="emp-dept">
