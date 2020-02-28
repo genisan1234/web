@@ -270,4 +270,11 @@
   
   .demo-button-error.oj-buttonset .oj-button.oj-disabled.oj-selected.oj-button-full-chrome .oj-button-icon,
   .demo-button-error.oj-button.oj-disabled.oj-selected.oj-button-full-chrome .oj-button-icon {
-    color: #ffffff; }
+    color: #ffffff; 
+	}
+
+.h3Style {
+	font-weight:	bold;
+	font-size:	12px;
+}
+

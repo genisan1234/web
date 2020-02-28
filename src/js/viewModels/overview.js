@@ -35,7 +35,7 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton'],
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      this.connected = function () {
+      self.connected = function () {
         // Implement further logic if needed
       };
 
