@@ -35,14 +35,14 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton'],
        * and inserted into the DOM and after the View is reconnected
        * after being disconnected.
        */
-      self.connected = function () {
+      this.connected = function () {
         // Implement further logic if needed
       };
 
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      self.disconnected = function () {
+      this.disconnected = function () {
         // Implement if needed
       };
 
@@ -50,14 +50,14 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton'],
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      self.transitionCompleted = function () {
+      this.transitionCompleted = function () {
         // Implement if needed
       };
     }
 
-	self.openWCAG = function() {
-		window.open("https://www.w3.org/TR/WCAG21/","_blank");
-	}
+    this.openWCAG = function () {
+      window.open("https://www.w3.org/TR/WCAG21/", "_blank");
+    }
 
     /*
      * Returns an instance of the ViewModel providing one instance of the ViewModel. If needed,
