@@ -13,21 +13,15 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton', 'ojs/ojpopup'],
       this.isSelected = ko.observable();
 
       this.greenActivated = (event) => {
-          var popup = document.getElementById('popup1');
-		  popup.innerHTML = "<p>You pressed thegreen button</p>;";
-          popup.open('#myToolbar');
+	  	alert("You pressed the green button.");
       }
 
       this.redActivated = (event) => {
-          var popup = document.getElementById('popup1');
-		  popup.innerHTML = "<p>You pressed the red button.</p>";
-          popup.open('#myToolbar');
+	  	alert("You pressed the red button");
       }
 
       this.purpleActivated = (event) => {
-          var popup = document.getElementById('popup1');
-		  popup.innerHTML = "<p>You pressed the purple button.</p>";
-          popup.open('#myToolbar');
+	  	alert("You pressed the purple button.");
       }
 
       // Below are a set of the ViewModel methods invoked by the oj-module component.

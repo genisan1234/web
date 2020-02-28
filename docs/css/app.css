@@ -274,6 +274,7 @@
 	}
 
 .h3Style {
-	font-size:	24pt
-}
-
+  font-size: 2rem;
+    font-weight: lighter;
+	  line-height: 2.5rem; 
+	  }
