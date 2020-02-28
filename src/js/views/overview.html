@@ -4,6 +4,9 @@
  <div class="oj-hybrid-padding">
  <p>This Oracle JET web application has been written to illustrate how to add
  accessibility features into an existing web application.</p>
+ <div id="container">
+ <div class="flex-layout">
+ <div class="flex-item-1">
  <span class="h3Style">The Introduction Page:</span>
  <p>The introduction page contains a tabbar with four tabs on it. Each tab
  illustrates different Oracle JET components and how they can be made
@@ -35,5 +38,36 @@
 <p> <span onclick="openWCAG">Click here to open the Web Content Accessibility
  Guidelines v2.1</span> which will be refferenced frequently throughout the
  learning path.</p>
+</div>
+
+<div class="flex-item-2">
+<p>This panel illustrates the challenges faced when only color is used to
+identify an item on the page.</p>
+<p>How would a completely blind screen reader user or someone who is color-blind
+comlete the below task?</p>
+
+<br/>
+<br/>
+<span class="h3Style">Tasks:</span>
+<ul>
+<li>
+<p>Press the green button below.</p>
+</li>
+<li>
+<p>Press the yellow button.
+</li>
+</ul>
+<br/>
+<oj-toolbar>
+	<oj-button id="yellowbutton">
+	</oj-button>
+	<oj-button id="redbutton">
+	</oj-button>
+	<oj-button id="greenbutton">
+	</oj-button>
+</oj-toolbar>
+</div>
+</div>
+</div>
 
  </div>
