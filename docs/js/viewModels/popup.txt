@@ -1,0 +1,3 @@
+          var popup = document.getElementById('popup1');
+		  popup.innerHTML = "<p>You pressed the";
+          popup.open('#btnpopup');

@@ -1,0 +1,5 @@
+  <div id="popup-wrapper">
+    <oj-popup  id="popup1" style="display:none">
+    <p>purr purr purr</p>
+    </oj-popup>
+    </div>
