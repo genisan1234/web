@@ -15,20 +15,6 @@
   overflow: hidden;
 }
 
-.hideSkipNav {
-    position: absolute;
-    left: -1000px;
-}
-.hideSkipNav:focus {
-    position: unset;
-    left: 0px;
-}
-
-.emp-avatar {
-  float: left;
-  margin: 0 20 20 0;
-}
-
 .emp-details {
   padding-left: 80px; 
   width: 200px;
