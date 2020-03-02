@@ -10,17 +10,19 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton', 'ojs/ojpopup'],
 
     function OverviewViewModel() {
 
-      this.isSelected = ko.observable();
+	  var self = this;
 
-      this.greenActivated = (event) => {
+      self.isSelected = ko.observable();
+
+      self.greenActivated = (event) => {
 	  	alert("You pressed the green button.");
       }
 
-      this.redActivated = (event) => {
+      self.redActivated = (event) => {
 	  	alert("You pressed the red button");
       }
 
-      this.purpleActivated = (event) => {
+      self.purpleActivated = (event) => {
 	  	alert("You pressed the purple button.");
       }
 
@@ -42,7 +44,7 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton', 'ojs/ojpopup'],
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      this.disconnected = function () {
+      self.disconnected = function () {
         // Implement if needed
       };
 
@@ -50,12 +52,12 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton', 'ojs/ojpopup'],
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      this.transitionCompleted = function () {
+      self.transitionCompleted = function () {
         // Implement if needed
       };
     }
 
-    this.openWCAG = function () {
+    self.openWCAG = function () {
       window.open("https://www.w3.org/TR/WCAG21/", "_blank");
     }
 

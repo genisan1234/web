@@ -25,26 +25,27 @@ define(
     'ojs/ojradioset'],
   function (ko, accUtils, ArrayTreeDataProvider, ArrayDataProvider, KeySet) {
     function OrganizationViewModel() {
+	  var self = this;
       const deptURL = 'https://apex.oracle.com/pls/apex/accjet/hr/departments/';
       const empURL = 'https://apex.oracle.com/pls/apex/accjet/hr/employees/';
 
-      this.deptDP = ko.observable();
-      this.depArray = ko.observable();
-      this.empArray = ko.observable();
-      this.depsDataProvider = ko.observable();
-      this.dataProvider = ko.observable();
-      this.expanded = new KeySet.ObservableKeySet().add(['research']);
-      this.itemSelected = ko.observable(false);
-      this.empDetails = ko.observable();
+      self.deptDP = ko.observable();
+      self.depArray = ko.observable();
+      self.empArray = ko.observable();
+      self.depsDataProvider = ko.observable();
+      self.dataProvider = ko.observable();
+      self.expanded = new KeySet.ObservableKeySet().add(['research']);
+      self.itemSelected = ko.observable(false);
+      self.empDetails = ko.observable();
 
       fetch(empURL)
         .then((response) => {
           return response.json();
         })
         .then((body) => {
-          let tempArray = this.createTreeData(body.items);
-          this.empArray(new ArrayDataProvider(body.items, { keyAttributes: 'empno' }));
-          this.dataProvider(new ArrayTreeDataProvider(tempArray, { keyAttributes: 'id' }));
+          let tempArray = self.createTreeData(body.items);
+          self.empArray(new ArrayDataProvider(body.items, { keyAttributes: 'empno' }));
+          self.dataProvider(new ArrayTreeDataProvider(tempArray, { keyAttributes: 'id' }));
         });
 
       fetch(deptURL)
@@ -58,11 +59,11 @@ define(
               label: item.dname
             }
           })
-          this.depArray(tempArray);
-          this.deptDP(new ArrayDataProvider(body.items, { keyAttributes: 'deptno' }));
+          self.depArray(tempArray);
+          self.deptDP(new ArrayDataProvider(body.items, { keyAttributes: 'deptno' }));
         });
 
-      this.createTreeData = (baseData) => {
+      self.createTreeData = (baseData) => {
         let org = {
           Accounting: { children: [] },
           Research: { children: [] },
@@ -110,21 +111,21 @@ define(
         {label:'ANALYST', value: 'ANALYST'},
         {label:'MANAGER', value: 'MANAGER'}
       ]
-      this.jobOptions = new ArrayDataProvider(jobsArray, {keyAttributes: 'value'});
+      self.jobOptions = new ArrayDataProvider(jobsArray, {keyAttributes: 'value'});
 
-      this.isLeaf = (value) => {
+      self.isLeaf = (value) => {
         return value;
       };
 
-      this.getInitials = (value) => {
+      self.getInitials = (value) => {
         return value.title.slice(0, 1);
       };
 
-      this.getItemText = (context) => {
+      self.getItemText = (context) => {
         return context.data.dname;
       }
 
-      this.selectionHandler = (event) => {
+      self.selectionHandler = (event) => {
         let temp = event.detail.value.values();
         if (temp.size > 0) {
           fetch(empURL + temp.entries().next().value[0])
@@ -139,12 +140,12 @@ define(
                 sal: emp.sal,
                 deptno: emp.deptno
               };
-              this.empDetails(tempObj);
-              this.depsDataProvider(new ArrayDataProvider(this.depArray(), {keyAttributes: 'value'}));
-              this.itemSelected(true);
+              self.empDetails(tempObj);
+              self.depsDataProvider(new ArrayDataProvider(self.depArray(), {keyAttributes: 'value'}));
+              self.itemSelected(true);
             });
         } else {
-          this.itemSelected(false);
+          self.itemSelected(false);
         }
       }
 
@@ -166,7 +167,7 @@ define(
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      this.disconnected = function () {
+      self.disconnected = function () {
         // Implement if needed
       };
 
@@ -174,7 +175,7 @@ define(
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      this.transitionCompleted = function () {
+      self.transitionCompleted = function () {
         // Implement if needed
       };
     }

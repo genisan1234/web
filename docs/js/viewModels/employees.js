@@ -27,10 +27,11 @@ define(
   function (accUtils, ko, ArrayDataProvider, ValidationBase, ConverterUtilsI18n) {
     function EmployeesViewModel() {
 
+	  var self = this;
       const empURL = 'https://apex.oracle.com/pls/apex/accjet/hr/employees/';
       const deptURL = 'https://apex.oracle.com/pls/apex/accjet/hr/departments/';
 
-      this.createMessage = (data) => {
+      self.createMessage = (data) => {
         return {
           severity: 'confirmation',
           summary: 'Updates saved',
@@ -42,40 +43,40 @@ define(
         };
       };
 
-      this.positionObject = {
+      self.positionObject = {
         my: { vertical: 'top', horizontal: 'start' },
         at: { vertical: 'top', horizontal: 'start' },
         of: 'window'
       };
 
-      this.messages = ko.observableArray([]);
-      this.messagesDataprovider = ko.observable();
-      this.messagesDataprovider(new ArrayDataProvider(this.messages));
+      self.messages = ko.observableArray([]);
+      self.messagesDataprovider = ko.observable();
+      self.messagesDataprovider(new ArrayDataProvider(self.messages));
 
-      this.selectedRow = ko.observable();
-      this.activeRow = ko.observable();
+      self.selectedRow = ko.observable();
+      self.activeRow = ko.observable();
 
       // edit dialog data variables
-      this.editEmployeeId = ko.observable();
-      this.editEmployeeName = ko.observable();
-      this.editJob = ko.observable();
-      this.editSal = ko.observable();
-      this.editHireDate = ko.observable();
-      this.editMgr = ko.observable();
-      this.editComm = ko.observable();
-      this.editDeptNo = ko.observable();
+      self.editEmployeeId = ko.observable();
+      self.editEmployeeName = ko.observable();
+      self.editJob = ko.observable();
+      self.editSal = ko.observable();
+      self.editHireDate = ko.observable();
+      self.editMgr = ko.observable();
+      self.editComm = ko.observable();
+      self.editDeptNo = ko.observable();
 
-      this.groupValid = ko.observable();
+      self.groupValid = ko.observable();
 
       // detail data variables
-      this.detailEmployeeId = ko.observable();
-      this.detailEmployeeName = ko.observable();
-      this.detailJob = ko.observable();
-      this.detailSal = ko.observable();
-      this.detailHireDate = ko.observable();
-      this.detailMgr = ko.observable();
-      this.detailComm = ko.observable();
-      this.detailDeptNo = ko.observable();
+      self.detailEmployeeId = ko.observable();
+      self.detailEmployeeName = ko.observable();
+      self.detailJob = ko.observable();
+      self.detailSal = ko.observable();
+      self.detailHireDate = ko.observable();
+      self.detailMgr = ko.observable();
+      self.detailComm = ko.observable();
+      self.detailDeptNo = ko.observable();
 
       const salOptions = {
         style: 'currency',
@@ -90,19 +91,19 @@ define(
       };
       const dateConverter = ValidationBase.Validation.converterFactory('datetime').createConverter(dateOptions);
 
-      this.formatSal = data => salaryConverter.format(data);
-      this.formatDate = data => dateConverter.format(data);
+      self.formatSal = data => salaryConverter.format(data);
+      self.formatDate = data => dateConverter.format(data);
 
-      this.deptMap = ko.observable();
+      self.deptMap = ko.observable();
       $.getJSON(deptURL).then(depts => {
-        this.deptMap(new Map(Array.from(depts.items.map(dept => [dept.deptno, dept]))));
+        self.deptMap(new Map(Array.from(depts.items.map(dept => [dept.deptno, dept]))));
       });
 
-      this.data = ko.observableArray();
-      this.empMap = ko.observable();
+      self.data = ko.observableArray();
+      self.empMap = ko.observable();
       $.getJSON(empURL)
         .then(users => {
-          this.empMap(new Map(Array.from(users.items.map(emp => [emp.empno, emp]))));
+          self.empMap(new Map(Array.from(users.items.map(emp => [emp.empno, emp]))));
           let tempArray = users.items.map(item => {
             return {
               empno: item.empno,
@@ -115,16 +116,16 @@ define(
               deptno: item.deptno
             };
           });
-          this.data(tempArray);
+          self.data(tempArray);
         });
 
-      this.dataProvider = new ArrayDataProvider(
-        this.data, { keyAttributes: 'empno' }
+      self.dataProvider = new ArrayDataProvider(
+        self.data, { keyAttributes: 'empno' }
       );
 
-      this.isDisabled = ko.observable(true);
-      this.selectionChangedHandler = (event) => {
-        let data = this.selectedRow().data;
+      self.isDisabled = ko.observable(true);
+      self.selectionChangedHandler = (event) => {
+        let data = self.selectedRow().data;
         if (event.detail.previousValue.key) {
           document.getElementById(event.detail.previousValue.key + '-btn').setProperty('disabled', true);
         }
@@ -133,59 +134,59 @@ define(
         }
       };
 
-      this.editRow = (event) => {
+      self.editRow = (event) => {
         event.detail.originalEvent.stopPropagation();
-        let data = this.selectedRow().data;
+        let data = self.selectedRow().data;
         document.getElementById('editDialog').open();
-        this.editEmployeeId(data.empno);
-        this.editEmployeeName(data.ename);
-        this.editJob(data.job);
-        this.editSal(data.sal);
-        this.editHireDate(data.hiredate);
-        this.editMgr(data.mgr);
-        this.editComm(data.comm);
-        this.editDeptNo(data.deptno);
+        self.editEmployeeId(data.empno);
+        self.editEmployeeName(data.ename);
+        self.editJob(data.job);
+        self.editSal(data.sal);
+        self.editHireDate(data.hiredate);
+        self.editMgr(data.mgr);
+        self.editComm(data.comm);
+        self.editDeptNo(data.deptno);
       };
 
-      this.save = () => {
+      self.save = () => {
         // save edits to employee
-        let url = empURL + this.editEmployeeId();
+        let url = empURL + self.editEmployeeId();
         let newData = {
-          ename: this.editEmployeeName(),
-          job: this.editJob(),
-          sal: this.editSal(),
-          hiredate: this.editHireDate(),
-          mgr: this.editMgr(),
-          comm: this.editComm(),
-          deptno: this.editDeptNo()
+          ename: self.editEmployeeName(),
+          job: self.editJob(),
+          sal: self.editSal(),
+          hiredate: self.editHireDate(),
+          mgr: self.editMgr(),
+          comm: self.editComm(),
+          deptno: self.editDeptNo()
         };
 
-        this.updateData(url, newData)
+        self.updateData(url, newData)
           .then(() => {
             document.getElementById('editDialog').close();
-            let newMessage = this.createMessage({ ename: this.editEmployeeName() });
-            this.messages.push(newMessage);
+            let newMessage = self.createMessage({ ename: self.editEmployeeName() });
+            self.messages.push(newMessage);
             let element = document.getElementById('table');
             let currentRow = element.currentRow;
             if (currentRow != null) {
-              this.data.splice(currentRow.rowIndex, 1, {
-                empno: this.editEmployeeId(),
-                ename: this.editEmployeeName(),
-                job: this.editJob(),
-                sal: this.editSal(),
-                hiredate: this.editHireDate()
+              self.data.splice(currentRow.rowIndex, 1, {
+                empno: self.editEmployeeId(),
+                ename: self.editEmployeeName(),
+                job: self.editJob(),
+                sal: self.editSal(),
+                hiredate: self.editHireDate()
               });
               document.getElementById(currentRow.rowKey + '-btn').setProperty('disabled', false);
             }
           });
       };
 
-      this.cancel = () => {
+      self.cancel = () => {
         // cancel and close the dialog
         document.getElementById('editDialog').close();
       };
 
-      this.updateData = (url, data) => {
+      self.updateData = (url, data) => {
         return fetch(url, {
           method: 'PUT', // 'GET', 'PUT', 'DELETE', etc.
           body: JSON.stringify(data), // Use correct payload (matching 'Content-Type')
@@ -195,34 +196,34 @@ define(
           .catch(error => console.error(error));
       };
 
-      this.rowChangeHandler = (event) => {
+      self.rowChangeHandler = (event) => {
         let data = event.detail;
         if (event.type === 'currentRowChanged' && data.value != null) {
           let rowIndex = data.value.rowIndex;
-          let emp = this.data()[rowIndex];
+          let emp = self.data()[rowIndex];
           if (emp != null) {
-            this.detailEmployeeId(emp.empno);
-            this.detailEmployeeName(emp.ename);
-            this.detailJob(emp.job);
-            this.detailSal(salaryConverter.format(emp.sal));
-            this.detailHireDate(emp.hiredate);
-            this.detailMgr(this.getMgr(emp.mgr));
-            this.detailDeptNo(this.getDept(emp.deptno));
+            self.detailEmployeeId(emp.empno);
+            self.detailEmployeeName(emp.ename);
+            self.detailJob(emp.job);
+            self.detailSal(salaryConverter.format(emp.sal));
+            self.detailHireDate(emp.hiredate);
+            self.detailMgr(self.getMgr(emp.mgr));
+            self.detailDeptNo(self.getDept(emp.deptno));
           }
-          this.activeRow(data.value);
+          self.activeRow(data.value);
         }
       };
 
-      this.getDept = (id) => {
+      self.getDept = (id) => {
         if (id) {
-          return this.deptMap().get(id).dname;
+          return self.deptMap().get(id).dname;
         }
         return 'No Department';
       };
 
-      this.getMgr = (id) => {
+      self.getMgr = (id) => {
         if (id) {
-          return this.empMap().get(id).ename;
+          return self.empMap().get(id).ename;
         }
         return 'No Manager';
       };
@@ -245,7 +246,7 @@ define(
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      this.disconnected = () => {
+      self.disconnected = () => {
         // Implement if needed
       };
 
@@ -253,7 +254,7 @@ define(
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      this.transitionCompleted = () => {
+      self.transitionCompleted = () => {
         // Implement if needed
       };
     }

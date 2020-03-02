@@ -16,6 +16,8 @@ define(
   ],
   function (accUtils, ko, ArrayDataProvider, CoreRouter, ModuleRouterAdapter, KnockoutRouterAdapter) {
     function IntroViewModel(params) {
+	  var self = this;
+
       // setup router for tabbar states
       const routes = [
         { path: '', redirect: 'overview' }, // Default route redirects to 'overview'
@@ -26,7 +28,7 @@ define(
       ];
 
       // Create ADP with partial array, excluding first redirect route
-      this.dataProvider = new ArrayDataProvider(routes.slice(1), {
+      self.dataProvider = new ArrayDataProvider(routes.slice(1), {
         keyAttributes: 'path'
       });
 
@@ -34,7 +36,7 @@ define(
       let overviewRouter = params.parentRouter.createChildRouter(routes);
 
       // Create ModuleRouterAdapter instance
-      this.module = new ModuleRouterAdapter(
+      self.module = new ModuleRouterAdapter(
         overviewRouter,
         {
           viewPath: 'views/',
@@ -43,7 +45,7 @@ define(
       );
 
       // Create an observable to react to the current router state path
-      this.selection = new KnockoutRouterAdapter(overviewRouter);
+      self.selection = new KnockoutRouterAdapter(overviewRouter);
 
       // Synchronize the router, causing it to go to its default route
       overviewRouter.sync();
@@ -67,7 +69,7 @@ define(
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      this.disconnected = function () {
+      self.disconnected = function () {
         // Implement if needed
       };
 
@@ -75,7 +77,7 @@ define(
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      this.transitionCompleted = function () {
+      self.transitionCompleted = function () {
         // Implement if needed
       };
     }

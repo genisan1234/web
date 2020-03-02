@@ -20,32 +20,34 @@ define(
     'ojs/ojformlayout'],
   function (accUtils, $, ko, ArrayDataProvider, Context, KnockoutTemplateUtils, NumberConverter) {
     function DepartmentsViewModel() {
-      this.KnockoutTemplateUtils = KnockoutTemplateUtils;
+	  var self = this;
+
+      self.KnockoutTemplateUtils = KnockoutTemplateUtils;
       const deptURL = 'https://apex.oracle.com/pls/apex/accjet/hr/departments/';
       const empURL = 'https://apex.oracle.com/pls/apex/accjet/hr/employees/';
-      this.dataReady = ko.observable(false);
-      this.accountingCount = ko.observable(0);
-      this.researchCount = ko.observable(0);
-      this.salesCount = ko.observable(0);
-      this.operationsCount = ko.observable(0);
-      this.pagingModel = ko.observable();
-      this.depts = ko.observableArray();
+      self.dataReady = ko.observable(false);
+      self.accountingCount = ko.observable(0);
+      self.researchCount = ko.observable(0);
+      self.salesCount = ko.observable(0);
+      self.operationsCount = ko.observable(0);
+      self.pagingModel = ko.observable();
+      self.depts = ko.observableArray();
 
-      this.getItemInitialDisplay = function (index) {
+      self.getItemInitialDisplay = function (index) {
         return index < 1 ? '' : 'none';
       };
 
       fetch(empURL).then(response => response.json()).then(data => {
-        this.processEmpData(data);
+        self.processEmpData(data);
       });
 
-      this.deptTotals = ko.observableArray([]);
-      this.chartDataProvider = new ArrayDataProvider(this.deptTotals, { keyAttributes: 'id' });
-      this.totalSalary = 0;
+      self.deptTotals = ko.observableArray([]);
+      self.chartDataProvider = new ArrayDataProvider(self.deptTotals, { keyAttributes: 'id' });
+      self.totalSalary = 0;
 
-      this.processEmpData = (data) => {
+      self.processEmpData = (data) => {
         let tempArray = data.items;
-        this.deptTotals([
+        self.deptTotals([
           {
             id: 0,
             series: 'Accounting',
@@ -74,24 +76,24 @@ define(
         tempArray.forEach(item => {
           switch (item.deptno) {
             case 10:
-              this.totalSalary += item.sal;
-              this.deptTotals()[0].value += item.sal;
-              this.accountingCount(this.accountingCount() + 1);
+              self.totalSalary += item.sal;
+              self.deptTotals()[0].value += item.sal;
+              self.accountingCount(self.accountingCount() + 1);
               break;
             case 20:
-              this.totalSalary += item.sal;
-              this.deptTotals()[1].value += item.sal;
-              this.researchCount(this.researchCount() + 1);
+              self.totalSalary += item.sal;
+              self.deptTotals()[1].value += item.sal;
+              self.researchCount(self.researchCount() + 1);
               break;
             case 30:
-              this.totalSalary += item.sal;
-              this.deptTotals()[2].value += item.sal;
-              this.salesCount(this.salesCount() + 1);
+              self.totalSalary += item.sal;
+              self.deptTotals()[2].value += item.sal;
+              self.salesCount(self.salesCount() + 1);
               break;
             case 40:
-              this.totalSalary += item.sal;
-              this.deptTotals()[3].value += item.sal;
-              this.operationsCount(this.operationsCount() + 1);
+              self.totalSalary += item.sal;
+              self.deptTotals()[3].value += item.sal;
+              self.operationsCount(self.operationsCount() + 1);
               break;
             default:
               console.log('Unknown department: ' + item.deptno);
@@ -99,29 +101,29 @@ define(
         });
       };
 
-      this.getEmpCount = (val) => {
+      self.getEmpCount = (val) => {
         switch (val) {
           case 'accounting':
-            return this.accountingCount();
+            return self.accountingCount();
           case 'research':
-            return this.researchCount();
+            return self.researchCount();
           case 'sales':
-            return this.salesCount();
+            return self.salesCount();
           case 'operations':
-            return this.operationsCount();
+            return self.operationsCount();
           default:
             return 0;
         }
       };
 
-      this.usdNumberConverter = new NumberConverter.IntlNumberConverter({
+      self.usdNumberConverter = new NumberConverter.IntlNumberConverter({
         style: "currency",
         currency: "USD",
         currencyDisplay: "code",
         pattern: "¤ ##,##0.00"
       });
 
-      this.dgDataProvider = ko.observable();
+      self.dgDataProvider = ko.observable();
       $.getJSON(deptURL).then((depts) => {
         let tempDeptArray = [];
         let tempArray = depts.items.map(dept => {
@@ -132,24 +134,24 @@ define(
             loc: dept.loc
           };
         });
-        this.depts(tempDeptArray);
-        this.dgDataProvider(new ArrayDataProvider(tempArray, { keyAttributes: 'deptno' }));
-        this.dataReady(true);
+        self.depts(tempDeptArray);
+        self.dgDataProvider(new ArrayDataProvider(tempArray, { keyAttributes: 'deptno' }));
+        self.dataReady(true);
 
         let filmStrip = document.getElementById('deptFilmstrip');
         let busyContext = Context.getContext(filmStrip).getBusyContext();
         busyContext.whenReady().then(() => {
           // Set the Paging Control pagingModel
-          this.pagingModel(filmStrip.getPagingModel());
+          self.pagingModel(filmStrip.getPagingModel());
         });
       });
 
-      this.styleName = (string) => {
+      self.styleName = (string) => {
         string = string.toLowerCase();
         return string.charAt(0).toUpperCase() + string.slice(1);
       };
 
-      this.getCellClassName = (cellContext) => {
+      self.getCellClassName = (cellContext) => {
         let key = cellContext.keys.column;
         if (key === 'deptno') {
           return 'oj-helper-justify-content-right small-cell';
@@ -160,7 +162,7 @@ define(
         return '';
       };
 
-      this.getCellWidth = (cellContext) => {
+      self.getCellWidth = (cellContext) => {
         let key = cellContext.data;
         if (key === 'deptno') {
           return 'width:20%';
@@ -189,7 +191,7 @@ define(
       /**
        * Optional ViewModel method invoked after the View is disconnected from the DOM.
        */
-      this.disconnected = () => {
+      self.disconnected = () => {
         // Implement if needed
       };
 
@@ -197,7 +199,7 @@ define(
        * Optional ViewModel method invoked after transition to the new View is complete.
        * That includes any possible animation between the old and the new View.
        */
-      this.transitionCompleted = () => {
+      self.transitionCompleted = () => {
         // Implement if needed
       };
     }
