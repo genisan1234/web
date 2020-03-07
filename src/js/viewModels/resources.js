@@ -10,6 +10,12 @@ define(['accUtils'],
 
     function ResourcesViewModel() {
       var self = this;
+      
+      self.openWCAG = function () {
+      window.open("https://www.w3.org/TR/WCAG21/", "_blank");
+    }
+
+
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
 
