@@ -264,11 +264,3 @@
     font-weight: lighter;
 	  line-height: 2.5rem; 
 	  }
-
-.setFocusRectangle {
-    border-width3px;
-}
-
-.setFocusRectangle: focus {
-    border-width0px;
-}
