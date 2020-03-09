@@ -3,32 +3,43 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class="oj-hybrid-padding">
-<ul>
-<li>Oracle Jet Resources</li>
-<div>
-<ul>
-<li><a href="http://jet.oracle.com" target="_blank" tabindex="1">Oracle JET Main Site</a></li>
-<li><a href="https://docs.oracle.com/en/middleware/jet/5.1/develop/index.html"
-target="_blank">Oracle JET Developer's Guide</a></li>
-<li><a href="https://www.oracle.com/webfolder/technetwork/jet/jetCookbook.html"
-target="_blank">Oracle JET CookBook</a></li>
-<li><a href="https://www.oracle.com/webfolder/technetwork/jet/jsdocs/index.html"
-target="_blank">Oracle JET API Docs</a></li>
-<li><a href="https://docs.oracle.com/en/middleware/developer-tools/jet/8/reference-keyboard-touch/index.html"
-target="_blank" class="setFocusRectangle">Oracle JET Keyboard and Gesture Docs</a></li>
+	<ul>
+		<li>Oracle Jet Resources</li>
+		<div>
+			<ul>
+				<li><a href="http://jet.oracle.com" target="_blank" tabindex="1">Oracle JET Main Site</a></li>
+				<li><a href="https://docs.oracle.com/en/middleware/jet/5.1/develop/index.html" target="_blank">Oracle JET
+						Developer's Guide</a></li>
+				<li><a href="https://www.oracle.com/webfolder/technetwork/jet/jetCookbook.html" target="_blank">Oracle JET
+						CookBook</a></li>
+				<li><a href="https://www.oracle.com/webfolder/technetwork/jet/jsdocs/index.html" target="_blank">Oracle JET API
+						Docs</a></li>
+				<li><a href="https://docs.oracle.com/en/middleware/developer-tools/jet/8/reference-keyboard-touch/index.html"
+						target="_blank" class="setFocusRectangle">Oracle JET Keyboard and Gesture Docs</a></li>
 
-</div>
-<li>Accessibility Guides and Laws</li>
-	<div>
-		<ul>
-			<li><span on-click="[[openWCAG]]" tabindex="0">Click here</span> to
-			open the Web
-			Content Accessibility Guidelines 2.1</li>
-			<li><a href="http://section508.gov" ttarget="_blank">U.S. Section
-			508 (Procurement guidelines)</a></li>
-			<li><a href="http://ada.gov" target="_blank">Americans with
-			Disabilities Act</a></li>
-		</ul>
 		</div>
-		</ul>
+		<li>Accessibility Guides and Laws</li>
+		<div>
+			<ul>
+				<li><span on-click="[[openWCAG]]" tabindex="0">Click here</span> to
+					open the Web
+					Content Accessibility Guidelines 2.1</li>
+				<li><a href="http://section508.gov" ttarget="_blank">U.S. Section
+						508 (Procurement guidelines)</a></li>
+				<li><a href="http://ada.gov" target="_blank">Americans with
+						Disabilities Act</a></li>
+			</ul>
+		</div>
+	</ul>
+	<oj-button on-oj-action="[[open]]">Click Me!</oj-button>
+	<oj-dialog style="display:none" id="modalDialog1" dialog-title="Modal Dialog" cancel-behavior="none">
+		<div slot="body">
+			The dialog window can be moved, resized and closed with the 'x' icon.
+			Arbitrary content can be added to the the body and footer sections.
+		</div>
+		<div slot="footer">
+			<oj-button id="okButton" on-oj-action="[[close]]">OK
+			</oj-button>
+		</div>
+	</oj-dialog>
 </div>
