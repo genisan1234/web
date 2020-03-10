@@ -21,9 +21,7 @@
 		<li>Accessibility Guides and Laws</li>
 		<div>
 			<ul>
-				<li><span on-click="[[openWCAG]]" tabindex="0">Click here</span> to
-					open the Web
-					Content Accessibility Guidelines 2.1</li>
+				<li><span on-click="[[openWCAG]]" tabindex="0">Web Content Accessibility Guidelines 2.1</span></li>
 				<li><a href="http://section508.gov" ttarget="_blank">U.S. Section
 						508 (Procurement guidelines)</a></li>
 				<li><a href="http://ada.gov" target="_blank">Americans with
@@ -34,12 +32,14 @@
 	<oj-button on-oj-action="[[open]]">Click Me!</oj-button>
 	<oj-dialog style="display:none" id="modalDialog1" dialog-title="Modal Dialog" cancel-behavior="none">
 		<div slot="body">
-			The dialog window can be moved, resized and closed with the 'x' icon.
-			Arbitrary content can be added to the the body and footer sections.
+		<p>This dialog is an example of a keyboard trap.  There is no way using
+		just the keyboard to close this dialog without refreshing the page.</p>
 		</div>
 		<div slot="footer">
+			<!--
 			<oj-button id="okButton" on-oj-action="[[close]]">OK
 			</oj-button>
+			-->
 		</div>
 	</oj-dialog>
 </div>
