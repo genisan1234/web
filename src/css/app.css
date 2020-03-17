@@ -271,6 +271,6 @@
 
 .textSpacing {
 	line-height: 1.5 !important; 
-	letter-spacing: 1.5em !important;
-	word-spacing: 1.5em !important;
+	letter-spacing: 0.12em !important;
+	word-spacing: 0.16em !important;
 }
