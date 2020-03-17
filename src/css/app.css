@@ -267,10 +267,10 @@
 
 .setFocusRectangle{
     outline-width: 0;
-}A
+}
 
 .textSpacing {
 	line-height: 1.5 !important; 
 	letter-spacing: 1.5em !important;
-	word-spacing: 1.5m !important;
+	word-spacing: 1.5em !important;
 }
