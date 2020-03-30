@@ -259,11 +259,48 @@
     color: #ffffff; 
 	}
 
+h1, h2, h3, h4, h5, h6 {
+  color: rgb(16, 15, 14);
+    font-family: inherit;
+	  font-style: normal;
+	    margin: 8px 0;
+		  padding: 0 0 2px; }
+
+.h1Style {
+		    font-size: 2rem;
+			  font-weight: 900;
+			    line-height: 2.5rem; 
+}
+
+.h2Style {
+				  font-size: 2rem;
+				    font-weight: bold;
+					  line-height: 2.5rem; 
+}
+
 .h3Style {
-  font-size: 2rem;
-    font-weight: lighter;
-	  line-height: 2.5rem; 
-	  }
+					    font-size: 2rem;
+						  font-weight: lighter;
+						    line-height: 2.5rem; 
+}
+
+.h4Style {
+							  font-size: 1.5rem;
+							    font-weight: 900;
+								  line-height: 2rem; 
+}
+
+.h5Style {
+								    font-size: 1.5rem;
+									  font-weight: normal;
+									    line-height: 2rem; 
+}
+
+.h6Style {
+										  font-size: 1.25rem;
+										    font-weight: normal;
+											  line-height: 1.75rem; 
+}
 
 .setFocusRectangle{
     outline-width: 0;
