@@ -149,9 +149,10 @@ define(
         }
       }
 
-	  self.setKeyTrap function (event) {
-	  	this.setFocus();
+	  self.setKeyTrap = function (event) {
+	  	event.target.focus();
 }
+
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
 
