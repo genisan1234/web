@@ -44,8 +44,7 @@
               <oj-select-single id="job" label-hint="Job Title" data="[[jobOptions]]" value="{{empDetails().job}}">
               </oj-select-single>
               <oj-input-date id="hiredate" label-hint="Hire date" value="{{empDetails().hiredate}}"></oj-input-date>
-              <oj-input-number id="salary" label-hint="Salary" value="{{empDetails().sal}}" min="0" step="1"
-			  on-blur="[[setKeyTrap]]">
+              <oj-input-number id="salary" label-hint="Salary" value="{{empDetails().sal}}" min="0" step="1">
               </oj-input-number>
               <oj-input-text id="mgr-id" label-hint="Manager Id" value="{{empDetails().mgr}}" readonly="true">
               </oj-input-text>
