@@ -8,8 +8,8 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojhtmlutils', 'ojs/ojresponsiveknockoututils','ojs/ojresponsiveutils','ojs/ojlabel','ojs/ojselectsingle','ojs/ojchart','ojs/ojlistview','ojs/ojmodule-element'],
- function(accUtils,ko,$,ArrayDataProvider,HtmlUtils,ResponsiveKnockoutUtils,ResponsiveUtils) {
+define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojlabel','ojs/ojchart','ojs/ojlistview','ojs/ojavatar'],
+ function(accUtils,ko,$,ArrayDataProvider) {
     function DashboardViewModel() {
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
@@ -25,6 +25,10 @@ define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojhtmlutil
       var self = this;
       var url = 'js/store_data.json';
       self.activityDataProvider = ko.observable();
+      self.itemsDataProvider = ko.observable();
+      self.itemData = ko.observable('');            //holds data for Item details
+      self.pieSeriesValue = ko.observableArray([]);
+      /*
       var lg_xl_view = '<h1><oj-label for="itemsList">Activity Items</oj-label></h1>' +
   '<oj-list-view style="font-size: 18px">' +
   '<ul>' +
@@ -70,11 +74,21 @@ var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10
         var viewNodes = HtmlUtils.stringToNodeArray(self.large() ? lg_xl_view : sm_md_view);
         return { view: viewNodes };
         });
-
+*/
       $.getJSON(url).then(function(data){
               var activityarray  = data;
               self.activityDataProvider(new ArrayDataProvider(activityarray,{keyAttributes:'id'}));
+              var itemsarray = data[0].items;
+              self.itemsDataProvider(new ArrayDataProvider(itemsarray,{keyAttributes:'id'}));
+              self.itemData(data[0].items[0]);
+              // Create variable for Pie Chart series and populate observable
+              var pieSeries = [
+                { name: "Quantity in Stock", items: [self.itemData().quantity_instock] },
+                { name: "Quantity Shipped", items: [self.itemData().quantity_shipped] }
+              ];
+              self.pieSeriesValue(pieSeries);
       });
+      /*
       self.val = ko.observable('pie');
       var chartTypes = [
         { value: 'pie', label: 'Pie' },
@@ -92,6 +106,7 @@ var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10
         { "id": 7, "series": "Soccer", "group": "Group B", "value": 46 }
       ];
       self.chartDataProvider = new ArrayDataProvider(chartData,{keyAttributes:'id'});
+      */
       this.connected = () => {
         accUtils.announce('Dashboard page loaded.', 'assertive');
         document.title = "Dashboard";
