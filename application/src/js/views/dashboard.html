@@ -5,8 +5,8 @@
  -->
  <div class="oj-hybrid-padding">
   <h1>Dashboard Content Area</h1>
-  <div class="oj-flex oj-flex-init">
-    <div class="oj-flex-item">
+  <div class="oj-flex oj-flex-init oj-panel oj-panel-alt4">
+    <div class="oj-flex-item oj-sm-only-text-align-end oj-md-4 oj-sm-12 oj-panel oj-panel-alt1">
       <div>
         <h1> Product Information</h1>
         <h3><oj-label for="activitiesList">Activities</oj-label></h3>
@@ -20,8 +20,13 @@
         </oj-list-view>
         </div>
 </div>
-<div class="oj-flex oj-flex-item">
-  <div class="oj-flex-item">
+<div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12 oj-panel oj-panel-alt2">
+  <div class="oj-flex-item oj-md-6 oj-md-12"> 
+    <div id="container">
+      <oj-module config = "[[moduleConfig]]"></oj-module>
+    </div>
+  </div>
+  <div class="oj-flex-item oj-md-6 oj-md-12 oj-panel oj-panel-alt3">
     <div>
       <oj-label for="basicSelect" >Select Chart Type : </oj-label>
       <oj-select-single 
@@ -30,9 +35,7 @@
       data = "[[chartTypesProvider]]"
       value = "{{val}}" >
       </oj-select-single> 
-  </div>
     </div>
-    <div class="oj-flex-item">
     <div>
     <oj-chart type=[[val]] animation-on-data-change="auto" animation-on-display="auto" style=
     "max-width:500px;width:100%;height:350px;" data="[[chartDataProvider]]" hover-behavior="dim">
@@ -47,7 +50,6 @@
     </template>
 
     </oj-chart>
-  </div>
   </div>
   </div>
   </div>

@@ -8,8 +8,8 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojlabel','ojs/ojselectsingle','ojs/ojchart','ojs/ojlistview'],
- function(accUtils,ko,$,ArrayDataProvider) {
+define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojhtmlutils', 'ojs/ojresponsiveknockoututils','ojs/ojresponsiveutils','ojs/ojlabel','ojs/ojselectsingle','ojs/ojchart','ojs/ojlistview','ojs/ojmodule-element'],
+ function(accUtils,ko,$,ArrayDataProvider,HtmlUtils,ResponsiveKnockoutUtils,ResponsiveUtils) {
     function DashboardViewModel() {
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
@@ -25,6 +25,52 @@ define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojlabel','
       var self = this;
       var url = 'js/store_data.json';
       self.activityDataProvider = ko.observable();
+      var lg_xl_view = '<h1><oj-label for="itemsList">Activity Items</oj-label></h1>' +
+  '<oj-list-view style="font-size: 18px">' +
+  '<ul>' +
+  '<li>' +
+  '<div class="oj-flex-item">' +
+  '<p>SureCatch Baseball Glove</p>' +
+  '<p>Western R16 Helmet</p>' +
+  '<p>Western C1 Helmet</p>' +
+  '<p>Western Bat</p>' +
+  '</div>' +
+  '</li>' +
+  '<li>' +
+  '<div class="oj-flex-item">' +
+  '<p>Air-Lift Tire Pump</p>' +
+  '<p>Intact Bike Helmet</p>' +
+  '<p>Nimbus Bike Tire</p>' +
+  '<p>Refill Water Bottle</p>' +
+  '<p>Swift Boys 21 Speed</p>' +
+  '</div>' +
+  '</li>' +
+  '</ul>' +
+  '</oj-list-view>';
+  //Display this content for small and medium screen sizes
+var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10px; font-size: 10px">' +
+'<h1><oj-label for="itemsList">Activity Details</oj-label></h1>' +
+  '<oj-list-view style="font-size: 18px">' +
+  '<ul>' +
+  '<li>' +
+  '<div class="oj-flex-item">' +
+  '<p>SureCatch Baseball Glove</p>' +
+  '<p>Western R16 Helmet</p>' +
+  '<p>Western C1 Helmet</p>' +
+  '<p>Western Bat</p>' +
+  '</div>' +  
+  '</li>' +
+  '</ul>' +
+  '</oj-list-view>'
+  '</div>';
+      var lgQuery = ResponsiveUtils.getFrameworkQuery(ResponsiveUtils.FRAMEWORK_QUERY_KEY.LG_UP);
+
+      self.large = ResponsiveKnockoutUtils.createMediaQueryObservable(lgQuery);
+      self.moduleConfig = ko.pureComputed(function () {
+        var viewNodes = HtmlUtils.stringToNodeArray(self.large() ? lg_xl_view : sm_md_view);
+        return { view: viewNodes };
+        });
+
       $.getJSON(url).then(function(data){
               var activityarray  = data;
               self.activityDataProvider(new ArrayDataProvider(activityarray,{keyAttributes:'id'}));
