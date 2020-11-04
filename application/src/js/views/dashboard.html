@@ -5,6 +5,10 @@
  -->
  <div class="oj-hybrid-padding">
   <h1>Dashboard Content Area</h1>
+  <h1 class="oj-header-border">Update Item Details</h1>
+  <div class="oj-panel oj-sm-margin-2x demo-mypanel">
+  <div><demo-update-item item-id="34" item-name="John" item-price="3434.55" item-desc="This is an updated item"></demo-update-item></div>
+  </div>
   <div class="oj-flex oj-flex-init">
     <div class="oj-flex-item oj-md-4 oj-sm-12">
       <div>
@@ -88,6 +92,10 @@
   <oj-bind-if test="[[itemSelected()]]">
     <oj-dialog id="editDialog" style="display:none" title="Update Item Details">
       <div slot="body">
+
+        <demo-update-item item-id="[[itemData().id]]" item-name="{{itemData().name}}" item-price="{{itemData().price}}" item-desc="{{itemData().short_desc}}"></demo-update-item>
+      </div>
+      <!--div slot="body">
         <oj-label-value label-edge="start">
           <oj-label for="chatWindow" slot="label">Item ID</oj-label>
           <div slot="value" style="line-height: 2.4em">
@@ -100,7 +108,8 @@
         <oj-input-text id="newPrice" value="{{itemData().price}}"></oj-input-text>
         <oj-label class="oj-label oj-label-inline" for="newDesc">Item Description</oj-label>
         <oj-input-text id="newDesc" value="{{itemData().short_desc}}"></oj-input-text>
-      </div>
+      </div-->
+
       <div slot="footer">
         <oj-button id="submitBtn" on-oj-action="[[updateItemSubmit]]">Submit
         </oj-button>

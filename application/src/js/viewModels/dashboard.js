@@ -9,7 +9,7 @@
  * Your dashboard ViewModel code goes here
  */
 define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojmodel','ojs/ojcollectiondataprovider','ojs/ojlabel','ojs/ojchart','ojs/ojlistview','ojs/ojavatar',   'ojs/ojdialog',
-'ojs/ojinputtext'],
+'ojs/ojinputtext','demo-update-item/loader'],
  function(accUtils,ko,$,ArrayDataProvider,Model,CollectionDataProvider) {
     function DashboardViewModel() {
       // Below are a set of the ViewModel methods invoked by the oj-module component.
