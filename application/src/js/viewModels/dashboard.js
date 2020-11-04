@@ -8,8 +8,8 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojlabel','ojs/ojchart','ojs/ojlistview','ojs/ojavatar'],
- function(accUtils,ko,$,ArrayDataProvider) {
+define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojmodel','ojs/ojcollectiondataprovider','ojs/ojlabel','ojs/ojchart','ojs/ojlistview','ojs/ojavatar'],
+ function(accUtils,ko,$,ArrayDataProvider,Model,CollectionDataProvider) {
     function DashboardViewModel() {
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
@@ -23,7 +23,7 @@ define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojlabel','
        * after being disconnected.
        */
       var self = this;
-      var url = 'js/store_data.json';
+      //var url = 'js/store_data.json';
       self.activityDataProvider = ko.observable();
       self.itemsDataProvider = ko.observable();
       self.itemData = ko.observable('');            //holds data for Item details
@@ -83,6 +83,7 @@ var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10
         return { view: viewNodes };
         });
 */
+/*
       $.getJSON(url).then(function(data){
               var activityarray  = data;
               self.activityDataProvider(new ArrayDataProvider(activityarray,{keyAttributes:'id'}));
@@ -96,16 +97,73 @@ var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10
                 { name: "Quantity Shipped", items: [self.itemData().quantity_shipped] }
               ];
               self.pieSeriesValue(pieSeries);
-              */
+              
       });
+  */
+ var RESTurl = "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/";
+ var activityModel = Model.Model.extend({
+  urlRoot: RESTurl,
+  idAttribute: 'id'
+});
+self.myActivity = new activityModel();
+var activityCollection = new Model.Collection.extend({
+   url: RESTurl,
+   model: self.myActivity,
+   comparator: 'id'
+});
+/*An observable called activityDataProvider is already bound in the View file
+*from the JSON example, so you don't need to update dashboard.html
+*/
+self.myActivityCol = new activityCollection();
+self.activityDataProvider(new CollectionDataProvider(self.myActivityCol));
 
       self.selectedActivityChanged = function (event) {
         // Check whether click is an Activity selection or a deselection
         if (event.detail.value.length != 0) {
           // If selection, populate and display list
-          var itemsArray = self.firstSelectedActivity().data.items;
+          //var itemsArray = self.firstSelectedActivity().data.items;
           // Populate items list using DataProvider fetch on key attribute
-          self.itemsDataProvider(new ArrayDataProvider(itemsArray, { keyAttributes: "id" }))
+          //self.itemsDataProvider(new ArrayDataProvider(itemsArray, { keyAttributes: "id" }))
+          var activityKey = self.firstSelectedActivity().data.id;
+          //REST endpoint for the items list
+            var url = "https://apex.oracle.com/pls/apex/oraclejet/lp/activities/" + activityKey + '/items/';
+            function parseItem(response) {
+              var img = 'css/images/product_images/jet_logo_256.png'
+              if (response) {
+                //if the response contains items, pick the first one
+                if (response.items && response.items.length !== 0){response = response.items[0];}
+                //if the response contains an image, retain it
+                if (response.image !== null){img = response['image']; }
+                return {
+                  id: response['id'],
+                  name: response['name'],
+                  price: response['price'],
+                  short_desc: response['short_desc'],
+                  quantity: response['quantity'],
+                  quantity_instock: response['quantity_instock'],
+                  quantity_shipped: response['quantity_shipped'],
+                  activity_id: response['activity_id'],
+                  image: img
+                };
+              }
+            }
+            var itemModel = Model.Model.extend({
+              urlRoot: url,
+              parse: parseItem,
+              idAttribute: 'id'
+            });
+            self.myItem = new itemModel();
+          self.itemCollection = new Model.Collection.extend({
+            url: url,
+            model: self.myItem,
+            comparator: 'id'
+          });
+          /*
+          *An observable called itemsDataProvider is already bound in the View file
+          *from the JSON example, so you don't need to update dashboard.html
+          */
+          self.myItemCol = new self.itemCollection();
+          self.itemsDataProvider(new CollectionDataProvider(self.myItemCol));
           // Set List View properties
           self.activitySelected(true);
           self.itemSelected(false);
