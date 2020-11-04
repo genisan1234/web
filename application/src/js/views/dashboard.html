@@ -10,7 +10,10 @@
       <div>
         <h1> Product Information</h1>
         <h3><oj-label for="activitiesList">Activities</oj-label></h3>
-        <oj-list-view id="activitesList" style="width:100%;height:500px;overflow-x:hidden" data="[[activityDataProvider]]">
+        <oj-list-view id="activitesList" style="width:100%;height:500px;overflow-x:hidden" data="[[activityDataProvider]]"
+        selection-mode="single" selection="{{selectedActivity}}" on-selection-changed="[[selectedActivityChanged]]"
+              first-selected-item="{{firstSelectedActivity}}" scroll-policy="loadMoreOnScroll"
+              scroll-policy-options.fetch-size="5">
          <template slot="itemTemplate">
            <div>
             <div class="oj-flex" style="flex-wrap: nowrap">
@@ -33,13 +36,17 @@
         </oj-list-view>
         </div>
 </div>
+<oj-bind-if test="[[activitySelected()]]">
 <div class="oj-flex oj-flex-item oj-flex-items-pad oj-md-8 oj-sm-12">
   <!--div class="oj-flex-item oj-md-6 oj-md-12"> 
   <div id="container">
   <oj-module config = "[[moduleConfig]]"></oj-module>
   </div-->
   <div class="oj-flex-item"> 
-    <oj-list-view id="itemsList" style="width:50%;height:500px;overflow-x:hidden" data="[[itemsDataProvider]]">
+    <oj-list-view id="itemsList" style="width:50%;height:500px;overflow-x:hidden" data="[[itemsDataProvider]]"
+    selection-mode="single" selection="{{selectedItem}}" on-selection-changed="[[selectedItemChanged]]"
+              first-selected-item="{{firstSelectedItem}}" scroll-policy="loadMoreOnScroll"
+              scroll-policy-options.fetch-size="5">
       <template slot="itemTemplate">
         <div class="oj-flex" style="flex-wrap: nowrap">
           <span class="demo-thumbnail oj-flex-item" :style.background-image="[[' url('+$current.data.image+')']]"></span>
@@ -55,6 +62,7 @@
       </template>
     </oj-list-view>
   </div>
+  <oj-bind-if test="[[itemSelected()]]">
   <div class="oj-flex-item">
     <div>
       <h3><oj-label for="basicSelect">Item Details</oj-label></h3>
@@ -105,5 +113,18 @@
     </oj-chart>
   </div>
   </div>
+  </oj-bind-if>
+  <oj-bind-if test="[[!itemSelected()]]">
+    <div class="oj-flex-item oj-sm-12 oj-md-6">
+      <h4>Select an Item to see details</h4>
+    </div>
+  </oj-bind-if>
   </div>
+  </oj-bind-if>
+  <oj-bind-if test="[[!activitySelected()]]">
+    <div class="oj-flex-item oj-sm-6">
+      <h4>Select an Activity to see Items</h4>
+    </div>
+  </oj-bind-if>
+</div>
 </div>

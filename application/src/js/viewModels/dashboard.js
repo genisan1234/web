@@ -28,6 +28,14 @@ define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojlabel','
       self.itemsDataProvider = ko.observable();
       self.itemData = ko.observable('');            //holds data for Item details
       self.pieSeriesValue = ko.observableArray([]);
+      self.activitySelected = ko.observable(false);
+      self.selectedActivity = ko.observable();
+      self.firstSelectedActivity = ko.observable();
+            
+      // Item selection observables
+      self.itemSelected = ko.observable(false);
+      self.selectedItem = ko.observable();
+      self.firstSelectedItem = ko.observable()
       /*
       var lg_xl_view = '<h1><oj-label for="itemsList">Activity Items</oj-label></h1>' +
   '<oj-list-view style="font-size: 18px">' +
@@ -78,6 +86,7 @@ var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10
       $.getJSON(url).then(function(data){
               var activityarray  = data;
               self.activityDataProvider(new ArrayDataProvider(activityarray,{keyAttributes:'id'}));
+              /*
               var itemsarray = data[0].items;
               self.itemsDataProvider(new ArrayDataProvider(itemsarray,{keyAttributes:'id'}));
               self.itemData(data[0].items[0]);
@@ -87,7 +96,50 @@ var sm_md_view = '<div id="sm_md" style="background-color:lightcyan; padding: 10
                 { name: "Quantity Shipped", items: [self.itemData().quantity_shipped] }
               ];
               self.pieSeriesValue(pieSeries);
+              */
       });
+
+      self.selectedActivityChanged = function (event) {
+        // Check whether click is an Activity selection or a deselection
+        if (event.detail.value.length != 0) {
+          // If selection, populate and display list
+          var itemsArray = self.firstSelectedActivity().data.items;
+          // Populate items list using DataProvider fetch on key attribute
+          self.itemsDataProvider(new ArrayDataProvider(itemsArray, { keyAttributes: "id" }))
+          // Set List View properties
+          self.activitySelected(true);
+          self.itemSelected(false);
+          // Clear item selection
+          self.selectedItem([]);
+          self.itemData();
+        } else {
+          // If deselection, hide list
+          self.activitySelected(false);
+          self.itemSelected(false); 
+        }
+      };
+      /**
+  * Handle selection from Activity Items list
+  */
+self.selectedItemChanged = function (event) {
+  // Check whether click is an Activity Item selection or deselection
+  if (event.detail.value.length != 0) {
+    // If selection, populate and display list
+         // Populate items list observable using firstSelectedXxx API
+         self.itemData(self.firstSelectedItem().data);
+         // Create variable and get attributes of the items list to set pie chart values
+         var pieSeries = [
+           { name: "Quantity in Stock", items: [self.itemData().quantity_instock] },
+           { name: "Quantity Shipped", items: [self.itemData().quantity_shipped] }
+         ];
+         // Update the pie chart with the data
+         self.pieSeriesValue(pieSeries);
+         self.itemSelected(true);
+  } else {
+     // If deselection, hide list
+     self.itemSelected(false);
+  }
+};
       /*
       self.val = ko.observable('pie');
       var chartTypes = [
