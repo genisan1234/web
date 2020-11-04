@@ -43,6 +43,10 @@
   <oj-module config = "[[moduleConfig]]"></oj-module>
   </div-->
   <div class="oj-flex-item"> 
+    <h3><oj-label for="itemsList">Activity Items</oj-label></h3>
+    <oj-button id="createButton" on-oj-action="[[showCreateDialog]]">Create</oj-button>
+    <oj-button id="updateButton" disabled="[[!itemSelected()]]" on-oj-action="[[showEditDialog]]">Update</oj-button>
+    <oj-button id="deleteButton" disabled="[[!itemSelected()]]" on-oj-action="[[deleteItem]]">Delete</oj-button>
     <oj-list-view id="itemsList" style="width:50%;height:500px;overflow-x:hidden" data="[[itemsDataProvider]]"
     selection-mode="single" selection="{{selectedItem}}" on-selection-changed="[[selectedItemChanged]]"
               first-selected-item="{{firstSelectedItem}}" scroll-policy="loadMoreOnScroll"
@@ -62,7 +66,46 @@
       </template>
     </oj-list-view>
   </div>
+  <oj-dialog id="createDialog" style="display:none" title="Create New Item">
+    <div slot="body">
+      <oj-label class="oj-label oj-label-inline" for="createActivityId">Activity ID</oj-label>
+      <oj-input-text id="createActivityId" readonly value="[[firstSelectedActivity().data.id]]"></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="createNewName">Name</oj-label>
+      <oj-input-text id="createNewName" value='{{newItem.itemName}}'></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="createNewPrice">Price</oj-label>
+      <oj-input-text id="createNewPrice" value="{{newItem.price}}"></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="createNewDesc">Description</oj-label>
+      <oj-input-text id="createNewDesc" value="{{newItem.short_desc}}"></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="createNewInStock">Quantity: In-Stock</oj-label>
+      <oj-input-text id="createNewInStock" value="{{newItem.quantity_instock}}"></oj-input-text>
+      <oj-label class="oj-label oj-label-inline" for="createNewShipped">Quantity: Shipped</oj-label>
+      <oj-input-text id="createNewShipped" value="{{newItem.quantity_shipped}}"></oj-input-text>
+    </div>
+    <div slot="footer">
+      <oj-button id="submitBtn" on-oj-action="[[createItem]]">Submit</oj-button>
+    </div> 
+  </oj-dialog>
   <oj-bind-if test="[[itemSelected()]]">
+    <oj-dialog id="editDialog" style="display:none" title="Update Item Details">
+      <div slot="body">
+        <oj-label-value label-edge="start">
+          <oj-label for="chatWindow" slot="label">Item ID</oj-label>
+          <div slot="value" style="line-height: 2.4em">
+            <oj-bind-text id="chatWindow" value="[[itemData().id]]" style="width: 100%; min-width: 100%"></oj-bind-text>
+          </div>
+        </oj-label-value>
+        <oj-label class="oj-label oj-label-inline" for="newName">Item Name</oj-label>
+        <oj-input-text id="newName" value='{{itemData().name}}'></oj-input-text>
+        <oj-label class="oj-label oj-label-inline" for="newPrice">Item Price</oj-label>
+        <oj-input-text id="newPrice" value="{{itemData().price}}"></oj-input-text>
+        <oj-label class="oj-label oj-label-inline" for="newDesc">Item Description</oj-label>
+        <oj-input-text id="newDesc" value="{{itemData().short_desc}}"></oj-input-text>
+      </div>
+      <div slot="footer">
+        <oj-button id="submitBtn" on-oj-action="[[updateItemSubmit]]">Submit
+        </oj-button>
+      </div>
+    </oj-dialog>
   <div class="oj-flex-item">
     <div>
       <h3><oj-label for="basicSelect">Item Details</oj-label></h3>

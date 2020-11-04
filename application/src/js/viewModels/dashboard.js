@@ -8,7 +8,8 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojmodel','ojs/ojcollectiondataprovider','ojs/ojlabel','ojs/ojchart','ojs/ojlistview','ojs/ojavatar'],
+define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojmodel','ojs/ojcollectiondataprovider','ojs/ojlabel','ojs/ojchart','ojs/ojlistview','ojs/ojavatar',   'ojs/ojdialog',
+'ojs/ojinputtext'],
  function(accUtils,ko,$,ArrayDataProvider,Model,CollectionDataProvider) {
     function DashboardViewModel() {
       // Below are a set of the ViewModel methods invoked by the oj-module component.
@@ -27,6 +28,7 @@ define(['accUtils','knockout','jquery','ojs/ojarraydataprovider','ojs/ojmodel','
       self.activityDataProvider = ko.observable();
       self.itemsDataProvider = ko.observable();
       self.itemData = ko.observable('');            //holds data for Item details
+      self.newItem = ko.observableArray([]);
       self.pieSeriesValue = ko.observableArray([]);
       self.activitySelected = ko.observable(false);
       self.selectedActivity = ko.observable();
@@ -179,6 +181,62 @@ self.activityDataProvider(new CollectionDataProvider(self.myActivityCol));
       /**
   * Handle selection from Activity Items list
   */
+ self.showCreateDialog = function (event) {
+  document.getElementById('createDialog').open();
+}
+self.showEditDialog = function (event) {
+  document.getElementById('editDialog').open();
+}
+self.createItem = function (event, data) {
+  document.getElementById('createDialog').close();
+  var recordAttrs = {
+    name: data.newItem.itemName,
+    price: Number(data.newItem.price),
+    short_desc: data.newItem.short_desc,
+    quantity_instock: Number(data.newItem.quantity_instock),
+    quantity_shipped: Number(data.newItem.quantity_shipped),
+    quantity: (Number(data.newItem.quantity_instock) + Number(data.newItem.quantity_shipped)),
+    activity_id: Number(self.firstSelectedActivity().data.id),
+  };
+  self.myItemCol.create(recordAttrs, {
+    wait: true,  //Waits for the server call before setting attributes
+    contentType: 'application/json',
+    success: function (model, response) {
+      console.log('Successfully created new item');
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log('Error in Create: ' + jqXHR.statusCode.caller);
+    }
+  });
+}
+
+self.showEditDialog = function (event) {
+  document.getElementById('editDialog').open();
+} 
+self.updateItemSubmit = function (event) {
+    //myItemCol holds the current data                                
+    var myCollection = self.myItemCol;
+    //itemData holds the dialog data
+    var myModel = myCollection.get(self.itemData().id);
+    myModel.parse = null;
+    myModel.save(
+      {
+        'itemId': self.itemData().id,
+        'name': self.itemData().name,
+        'price': self.itemData().price,
+        'short_desc': self.itemData().short_desc
+      }, {
+      contentType: 'application/json',
+      success: function (model, response) {
+        console.log('response: '+JSON.stringify(response));
+        self.itemData.valueHasMutated();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(self.itemData().id + " -- " + jqXHR);
+      }
+    });
+  document.getElementById('editDialog').close();
+}
 self.selectedItemChanged = function (event) {
   // Check whether click is an Activity Item selection or deselection
   if (event.detail.value.length != 0) {
@@ -198,6 +256,21 @@ self.selectedItemChanged = function (event) {
      self.itemSelected(false);
   }
 };
+self.deleteItem = function (event, data) {
+  var itemId = self.firstSelectedItem().data.id;
+  var itemName = self.firstSelectedItem().data.name;
+  var model = self.myItemCol.get(itemId);
+  if (model) {
+    var really = confirm("Are you sure you want to delete " + itemName + "?");
+  }
+  if (really){
+    //Removes the model from the visible collection
+    self.myItemCol.remove(model);
+    //Removes the model from the data service
+    model.destroy();
+  }
+};
+
       /*
       self.val = ko.observable('pie');
       var chartTypes = [
