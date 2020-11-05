@@ -166,6 +166,8 @@ define(
        */
       self.connected = function () {
         // Implement further logic if needed
+        accUtils.announce('Organization tab Loaded.','polite');
+        document.title = "Introduction : Organization -- Accessibility Learning Path";
       };
 
       /**

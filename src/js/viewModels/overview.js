@@ -39,6 +39,8 @@ define(['knockout', 'accUtils', 'ojs/ojtoolbar', 'ojs/ojbutton', 'ojs/ojpopup'],
        */
       self.connected = function () {
         // Implement further logic if needed
+        accUtils.announce('Overview tab Loaded.','polite');
+        document.title = "Introduction : Overview -- Accessibility Learning Path";
       };
 
       /**

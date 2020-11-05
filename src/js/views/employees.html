@@ -3,13 +3,16 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class="oj-hybrid-padding">
+  <h3> Employees </h3>
   <oj-messages id="messagesId" messages="[[messagesDataprovider]]" display="notification" position="[[positionObject]]">
   </oj-messages>
   <div class="oj-flex oj-sm-flex-items-initial">
     <div class="oj-flex-item">
+      <h4>Employees Table</h4>
       <oj-table id='table' class="table-size" aria-label= "Employee Table" first-selected-row="{{selectedRow}}"
         on-current-row-changed="[[rowChangeHandler]]" on-first-selected-row-changed="[[selectionChangedHandler]]"
         selection-mode='{"row": "single", "column": "none"}' data='[[dataProvider]]' columns-default.sortable='disabled'
+        aria-label="Employees Table - Activate a row to see employee details"
         columns='[
         {"headerText": "Employee Number", "field": "empno"},
         {"headerText": "Username", "field": "ename"},
@@ -42,6 +45,7 @@
 
     <!-- employee details panel -->
     <div id="detailContainer" class="oj-flex-item" style="margin-left: 30px; min-width: 200px">
+      <h4> Employee Details</h4>
       <hr style="margin-top:12px;">
       <oj-bind-if test="[[!activeRow()]]">
         <span>Activate a row in the employees table to see details</span>

@@ -34,6 +34,8 @@ define(['accUtils', 'ojs/ojbutton', 'ojs/ojdialog'],
        */
       self.connected = function () {
         // Implement further logic if needed
+        accUtils.announce('Resources Page Loaded.','assertive');
+        document.title = "Resources -- Accessibility Learning Path";
       };
 
       /**

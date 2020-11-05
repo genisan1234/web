@@ -241,6 +241,8 @@ define(
        */
       self.connected = () => {
         // Implement further logic if needed
+        accUtils.announce('Employees tab Loaded.','polite');
+        document.title = "Introduction : Employees -- Accessibility Learning Path";
       };
 
       /**

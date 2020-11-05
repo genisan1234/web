@@ -64,6 +64,8 @@ define(
        */
       self.connected = function () {
         // Implement further logic if needed
+        accUtils.announce('Introduction Page Loaded.','assertive');
+        document.title = "Introduction -- Accessibility Learning Path";
       };
 
       /**
