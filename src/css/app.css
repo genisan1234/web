@@ -311,3 +311,11 @@ h1, h2, h3, h4, h5, h6 {
 	letter-spacing: 0.12em !important;
 	word-spacing: 0.16em !important;
 }
+.hideSkipNav{
+  position:absolute;
+  left:-1000px;
+}
+  .hideSkipNav:focus{
+    position:unset;
+    left:0px;
+  }
